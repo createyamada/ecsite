@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: gootscatalog
+  datasource:
+    url: jdbc:mysql://localhost:3306/yuricollectiondb
+    username: develop
+    password: develop
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+
+logging:
+  level:
+    root: info
+  file:
+    name: app.log
+  logback:
+    rollingpolicy:
+      max-file-size: 1MB
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true

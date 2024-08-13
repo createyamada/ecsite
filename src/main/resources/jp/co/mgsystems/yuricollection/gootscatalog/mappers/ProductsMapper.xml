@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.mgsystems.yuricollection.gootscatalog.mappers.ProductsMapper">
+  <resultMap id="productMap" type="jp.co.mgsystems.yuricollection.gootscatalog.beans.Product" autoMapping="true">
+    <association property="genre" javaType="jp.co.mgsystems.yuricollection.gootscatalog.beans.Genre" autoMapping="true"></association>
+  </resultMap>
+  <select id="selectAll" resultMap="productMap">
+    SELECT
+      * 
+    FROM
+      products 
+    LEFT OUTER JOIN
+      genres 
+    ON 
+      products.genre_id = genres.genre_id 
+    ORDER BY
+      product_id
+  </select>
+  <select id="getProductByCondition" resultMap="productMap">
+    SELECT
+      * 
+    FROM
+      products 
+    LEFT OUTER JOIN 
+      genres 
+    ON 
+      products.genre_id = genres.genre_id 
+    <where>
+      <if test="genreId != null">
+        AND products.genre_id = #{genreId}
+      </if>
+      <if test="keyword != null">
+        AND products.product_name LIKE CONCAT('%', #{keyword}, '%')
+      </if>
+    </where>
+    ORDER BY
+      product_id
+  </select>
+  <select id="getProductById" resultMap="productMap">
+    SELECT
+      * 
+    FROM
+      products 
+    LEFT OUTER JOIN
+      genres 
+    ON 
+      products.genre_id = genres.genre_id 
+    WHERE
+      products.product_id = #{productId}
+    ORDER BY
+        product_id
+  </select>
+  <update id="update">
+    UPDATE 
+      products 
+    SET
+      product_name = #{productName}, 
+      price = #{price},
+      stocks = #{stocks},
+      orders = #{orders},
+      comment = #{comment},
+      genre_id = #{genre.genreId},
+      version = version + 1,
+      created_at = #{createdAt},
+      updated_at = now() 
+    WHERE
+      product_id = #{productId}
+    AND
+      version = #{version}
+  </update>
+  <insert id="insert" parameterType="jp.co.mgsystems.yuricollection.gootscatalog.beans.Product">
+    INSERT INTO
+      products
+    (
+      product_name,
+      price,
+      stocks,
+      orders,
+      comment,
+      genre_id,
+      version,
+      created_at,
+      updated_at
+    )
+    VALUES (
+      #{productName},
+      #{price},
+      #{stocks},
+      #{orders},
+      #{comment},
+      #{genre.genreId},
+      1,
+      now(),
+      null
+    )
+  </insert>
+
+  <delete id="delete" parameterType="jp.co.mgsystems.yuricollection.gootscatalog.beans.Product">
+    DELETE FROM
+      products
+    WHERE
+      products.product_id = #{productId}
+  </delete>
+  
+</mapper>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title th:text="#{site.title}"></title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav
+      class="navbar bg-dark bg-body-tertiary border-bottom border-body mb-3"
+      data-bs-theme="dark"
+    >
+      <div class="container-fluid">
+        <a th:text="#{site.title}" class="navbar-brand" href="#"></a>
+        <a th:text="#{page.productList}" class="navbar-brand" href="#"></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNavbar"
+          aria-controls="offcanvasNavbar"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="offcanvas offcanvas-end"
+          tabindex="-1"
+          id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel"
+        >
+          <div class="offcanvas-header">
+            <h5
+              class="offcanvas-title"
+              id="offcanvasNavbarLabel"
+              th:text="#{admin.menu.title}"
+            ></h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="#"
+                  th:text="#{admin.menu.top}"
+                ></a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="#"
+                  th:text="#{admin.menu.product_list}"
+                ></a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="#"
+                  th:text="#{admin.menu.user_management}"
+                ></a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="#"
+                  th:text="#{admin.menu.new_item_add}"
+                ></a>
+              </li>
+              <li class="nav-item">
+                <form th:action="@{/logout}" method="post">
+                  <button
+                    class="nav-link"
+                    href="#"
+                    th:text="#{menu.logout}"
+                  ></button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <form th:action="@{/products}" method="get">
+        <div class="row justify-content-around">
+          <div class="col-3">
+            <label
+              th:text="#{searchForm.genre}"
+              for="genre"
+              class="form-label"
+            ></label>
+            <select
+              id="genre"
+              th:field="${searchForm.genreId}"
+              class="form-select"
+              aria-label="Default select example"
+            >
+              <option value="">ジャンルを選択</option>
+              <option
+                th:each="genre : ${genres}"
+                th:text="${genre.genreName}"
+                th:value="${genre.genreId}"
+              ></option>
+            </select>
+          </div>
+          <div class="col-3">
+            <div class="mb-3">
+              <label
+                th:text="#{searchForm.keyword}"
+                for="keyword"
+                class="form-label"
+              ></label>
+              <input
+                type="text"
+                id="keyword"
+                class="form-control"
+                th:field="${searchForm.keyword}"
+                placeholder="検索条件"
+              />
+              <div class="text-danger" th:errors="${searchForm.keyword}"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col d-flex flex-row-reverse">
+            <button
+              th:text="#{btn.delete}"
+              type="button"
+              class="btn btn-danger"
+            ></button>
+            <a
+              th:text="#{btn.new}"
+              th:href="@{/products/new}"
+              class="btn btn-primary me-1"
+            ></a>
+            <a
+              th:text="#{btn.reset}"
+              th:href="@{/products/reset}"
+              class="btn btn-secondary me-1"
+            >
+              リセット
+            </a>
+            <button
+              th:text="#{btn.search}"
+              type="submit"
+              class="btn btn-success ms-1 me-1"
+            >
+              検索
+            </button>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col">
+          <table class="table table-dark table-striped mt-3">
+            <thead>
+              <tr>
+                <th
+                  th:text="#{label.productId}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.genre}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.productName}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.stocks}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.orders}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.price}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.createdAt}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="product : ${products}">
+                <th scope="row" th:text="${product.productId}"></th>
+                <th>
+                  <a
+                    th:text="${product.genre.genreName}"
+                    th:href="@{/products/} + *{product.productId}"
+                  ></a>
+                </th>
+                <th th:text="${product.productName}"></th>
+                <th
+                  th:text="${#numbers.formatInteger(product.stocks,3,'COMMA')}"
+                  class="text-end"
+                ></th>
+                <th
+                  th:text="${#numbers.formatInteger(product.orders,3,'COMMA')}"
+                  class="text-end"
+                ></th>
+                <th
+                  th:text="${#numbers.formatInteger(product.price,3,'COMMA')}"
+                  class="text-end"
+                ></th>
+                <th
+                  th:text="${#temporals.format(product.createdAt, 'yyyy/MM/dd HH:mm')}"
+                ></th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
