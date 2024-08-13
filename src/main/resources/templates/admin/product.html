@@ -79,6 +79,15 @@
                   th:text="#{admin.menu.new_item_add}"
                 ></a>
               </li>
+              <li class="nav-item">
+                <form th:action="@{/logout}" method="post">
+                  <button
+                    class="nav-link"
+                    href="#"
+                    th:text="#{menu.logout}"
+                  ></button>
+                </form>
+              </li>
             </ul>
           </div>
         </div>
@@ -99,7 +108,7 @@
         </div>
         <div class="row" th:if="${productForm.productId}">
           <div class="col">
-            <label class="form-label">番号：</label
+            <label class="form-label" th:text="#{label.productId}"></label
             ><span th:text="*{productId}"></span>
             <input type="hidden" th:field="*{productId}" />
             <input type="hidden" th:field="*{version}" />
@@ -108,8 +117,12 @@
         </div>
         <div class="row">
           <div class="col">
-            <label for="genre" class="form-label">ジャンル</label
-            ><span class="badge bg-danger">必須</span>
+            <label
+              for="genre"
+              class="form-label"
+              th:text="#{label.genre}"
+            ></label
+            ><span class="badge bg-danger" th:text="#{label.required}"></span>
             <select
               id="genre"
               class="form-select"
@@ -127,8 +140,12 @@
             <div th:errors="*{genre.genreId}" class="invalid-feedback"></div>
           </div>
           <div class="col">
-            <label for="productName" class="form-label">商品名</label
-            ><span class="badge bg-danger">必須</span>
+            <label
+              for="productName"
+              class="form-label"
+              th:text="#{label.productName}"
+            ></label
+            ><span class="badge bg-danger" th:text="#{label.required}"></span>
             <input
               type="text"
               class="form-control"
@@ -141,8 +158,12 @@
             <div th:errors="*{productName}" class="invalid-feedback"></div>
           </div>
           <div class="col">
-            <label for="price" class="form-label">価格</label
-            ><span class="badge bg-danger">必須</span>
+            <label
+              for="price"
+              class="form-label"
+              th:text="#{label.price}"
+            ></label
+            ><span class="badge bg-danger" th:text="#{label.required}"></span>
             <input
               type="number"
               class="form-control"
@@ -157,7 +178,11 @@
         </div>
         <div class="row">
           <div class="col">
-            <label for="stocks" class="form-label">在庫数</label>
+            <label
+              for="stocks"
+              class="form-label"
+              th:text="#{label.stocks}"
+            ></label>
             <input
               type="number"
               class="form-control"
@@ -171,7 +196,11 @@
           </div>
 
           <div class="col" th:if="${productForm.productId}">
-            <label for="orders" class="form-label">受注数</label>
+            <label
+              for="orders"
+              class="form-label"
+              th:text="#{label.orders}"
+            ></label>
             <input
               type="number"
               id="orders"
@@ -183,7 +212,11 @@
         </div>
         <div class="row">
           <div class="col">
-            <label for="comment" class="form-label">コメント</label>
+            <label
+              for="comment"
+              class="form-label"
+              th:text="#{label.comment}"
+            ></label>
             <textarea
               type="text"
               class="form-control"
@@ -201,14 +234,14 @@
               class="btn btn-primary"
               type="submit"
               th:formaction="@{/products/save}"
-            >
-              保存
-            </button>
+              th:text="#{btn.save}"
+            ></button>
             <button
               class="btn btn-danger"
               type="submit"
               th:formaction="@{/products/delete}"
               th:if="${productForm.productId}"
+              th:text="#{btn.delete}"
             >
               削除
             </button>

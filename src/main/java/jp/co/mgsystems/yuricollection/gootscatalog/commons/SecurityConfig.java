@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @EnableWebSecurity
-@Slf4j
 public class SecurityConfig {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -31,7 +30,6 @@ public class SecurityConfig {
     @Bean
     protected PasswordEncoder passwordEncoder() {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
-        log.info("password: {}", encoder.encode("pass"));
         return encoder;
     }
 
