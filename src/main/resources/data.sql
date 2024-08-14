@@ -199,7 +199,7 @@ VALUES
     (
         'test',
         '$2a$10$2N3VfsGYspPWmrW0VW9TvOuL5/r.Q80yUUeZSd.AFD8fphXbuQta6',
-        'test'
+        'USER'
     );
 
 INSERT INTO
@@ -208,5 +208,5 @@ VALUES
     (
         'admin',
         '$2a$10$2N3VfsGYspPWmrW0VW9TvOuL5/r.Q80yUUeZSd.AFD8fphXbuQta6',
-        'admin'
+        'ADMIN'
     );

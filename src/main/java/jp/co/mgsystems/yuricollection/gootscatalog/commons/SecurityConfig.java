@@ -8,23 +8,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-            .anyRequest()
-            .authenticated();
-        http.
-            formLogin()
-            .defaultSuccessUrl("/products", true)
-            .permitAll();
-
-        return http.build();       
+        return http
+        .authorizeHttpRequests(authorize -> authorize
+        .requestMatchers("/admin/**").hasRole("ADMIN")
+        .requestMatchers("/*").hasAnyRole("ADMIN", "USER")
+        .requestMatchers("/logout").permitAll()
+        .requestMatchers("/login").permitAll()
+        .anyRequest().authenticated()
+        )
+        .formLogin(formLogin -> formLogin.loginPage("/login"))
+        .build();
+             
     }
 
     @Bean

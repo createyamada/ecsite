@@ -29,7 +29,7 @@ CREATE TABLE users(
     user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'ユーザID',
     username VARCHAR(20) COMMENT 'ユーザ名',
     password VARCHAR(100) COMMENT 'パスワード',
-    role VARCHAR(100) COMMENT '権限',
+    role VARCHAR(10) NOT NULL COMMENT '権限',
     created_at DATETIME COMMENT '登録日時',
     updated_at DATETIME COMMENT '更新日時'
 ) COMMENT 'ユーザマスタ';

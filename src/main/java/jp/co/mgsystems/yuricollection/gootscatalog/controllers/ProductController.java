@@ -38,7 +38,7 @@ public class ProductController {
     public String products(@Validated SearchForm searchForm, BindingResult result, Model model) {
         if (result.hasErrors()) {
             // 入力チェックでエラーがある場合
-            return "product_list";
+            return "admin/product_list";
         }
         // 情報検索しmodelに格納
         this.setGenres(model);
@@ -92,7 +92,7 @@ public class ProductController {
      * @param model　Model
      * @return　遷移先
      */
-    @PostMapping("/products/save")
+    @PostMapping("admin/products/save")
     public String save(@Validated ProductForm productForm, BindingResult result, Model model) {
         try {
             // 情報検索しmodelに格納
@@ -121,7 +121,7 @@ public class ProductController {
      * @param model　Model
      * @return　遷移先
      */
-    @PostMapping("/products/delete")
+    @PostMapping("admin/products/delete")
     public String delete(@ModelAttribute ProductForm productForm, BindingResult result, Model model) {
         try {
             Product product = new Product();
@@ -146,12 +146,19 @@ public class ProductController {
      * @param model model
      * @return 遷移先
      */
-    @GetMapping("/products/new")
+    @GetMapping("admin/products/new")
     public String initNew(@ModelAttribute ProductForm productForm, Model model) {
         // ジャンル情報取得
         setGenres(model);
         return "admin/product";
     }
+
+    @GetMapping("user/purchaseHistory")
+    public String initProductHistory() {
+        Integer userId = 1; 
+        return "user/purchase_history";
+    }
+    
     
 
     /**
@@ -167,6 +174,8 @@ public class ProductController {
         // モデルに格納
         model.addAttribute("genres", genres);
     }
+
+
 
 
     /**

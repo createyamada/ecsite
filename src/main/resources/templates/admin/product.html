@@ -17,8 +17,8 @@
       data-bs-theme="dark"
     >
       <div class="container-fluid">
-        <a th:text="#{site.title}" class="navbar-brand" href="#"></a>
-        <a th:text="#{page.productList}" class="navbar-brand" href="#"></a>
+        <a th:text="#{site.title}" class="navbar-brand" th:href="@{/}"></a>
+        <a th:text="#{page.admin.product}" class="navbar-brand"></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -54,28 +54,28 @@
                 <a
                   class="nav-link active"
                   aria-current="page"
-                  href="#"
-                  th:text="#{admin.menu.top}"
+                  th:href="@{/}"
+                  th:text="#{admin.menu.main}"
                 ></a>
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  href="#"
+                  th:href="@{/admin/products}"
                   th:text="#{admin.menu.product_list}"
                 ></a>
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  href="#"
+                  th:href="@{/admin/userManagement}"
                   th:text="#{admin.menu.user_management}"
                 ></a>
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  href="#"
+                  th:href="@{/admin/products/new}"
                   th:text="#{admin.menu.new_item_add}"
                 ></a>
               </li>
@@ -130,7 +130,7 @@
               aria-label="Default select example"
               th:errorClass="is-invalid"
             >
-              <option value="">ジャンルを選択</option>
+              <option value="" th:text="#{placeholder.genre}"></option>
               <option
                 th:each="genre : ${genres}"
                 th:text="${genre.genreName}"
@@ -242,9 +242,7 @@
               th:formaction="@{/products/delete}"
               th:if="${productForm.productId}"
               th:text="#{btn.delete}"
-            >
-              削除
-            </button>
+            ></button>
           </div>
         </div>
       </form>

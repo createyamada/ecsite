@@ -1,5 +1,7 @@
 package jp.co.mgsystems.yuricollection.gootscatalog.mappers;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.User;
