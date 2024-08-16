@@ -22,7 +22,7 @@ VALUES
         '永遠を誓うことのできるネックレスです',
         1,
         1,
-        now(),
+        DATE_SUB(now(), INTERVAL 10 DAY),
         null
     );
 
@@ -49,7 +49,7 @@ VALUES
         '相手を破滅させることのできるリングです',
         2,
         1,
-        now(),
+        DATE_SUB(now(), INTERVAL 9 DAY),
         null
     );
 
@@ -76,7 +76,7 @@ VALUES
         '不滅になるピアスです',
         3,
         1,
-        now(),
+        DATE_SUB(now(), INTERVAL 8 DAY),
         null
     );
 
@@ -103,7 +103,7 @@ VALUES
         '勝利を勝ち取ることのできるイヤリングです',
         4,
         1,
-        now(),
+        DATE_SUB(now(), INTERVAL 6 DAY),
         null
     );
 
@@ -130,7 +130,7 @@ VALUES
         '火事場を力を引き出すことのできるブレスレットです',
         5,
         1,
-        now(),
+        DATE_SUB(now(), INTERVAL 5 DAY),
         null
     );
 
@@ -194,19 +194,67 @@ VALUES
 
 -- ユーザデータ作成
 INSERT INTO
-    users(username, password, role)
+    users(
+        username,
+        password,
+        role,
+        first_name,
+        last_name,
+        zip,
+        telno,
+        prefectures,
+        city,
+        address,
+        enabled,
+        created_at,
+        updated_at
+    )
 VALUES
     (
-        'test',
+        'mgsystems.priv.co.ltd@gmail.com',
         '$2a$10$2N3VfsGYspPWmrW0VW9TvOuL5/r.Q80yUUeZSd.AFD8fphXbuQta6',
-        'USER'
+        'USER',
+        'テスト',
+        'ユーザ',
+        '1234567',
+        '00000000000',
+        '神奈川県',
+        '中郡二宮町',
+        '山西175-9第一サンハイツ101',
+        TRUE,
+        now(),
+        null
     );
 
 INSERT INTO
-    users(username, password, role)
+    users(
+        username,
+        password,
+        role,
+        first_name,
+        last_name,
+        zip,
+        telno,
+        prefectures,
+        city,
+        address,
+        enabled,
+        created_at,
+        updated_at
+    )
 VALUES
     (
-        'admin',
+        'mgsystems.priv.co.ltd@gmail.com',
         '$2a$10$2N3VfsGYspPWmrW0VW9TvOuL5/r.Q80yUUeZSd.AFD8fphXbuQta6',
-        'ADMIN'
+        'ADMIN',
+        '管理者',
+        'ユーザ',
+        '1234567',
+        '00000000000',
+        '東京都',
+        '千代田区',
+        '1-1',
+        TRUE,
+        now(),
+        null
     );

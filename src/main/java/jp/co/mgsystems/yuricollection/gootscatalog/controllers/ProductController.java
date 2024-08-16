@@ -83,6 +83,25 @@ public class ProductController {
         BeanUtils.copyProperties(product, productForm);
         return "admin/product";
     }
+
+    /**
+     * 商品詳細初期表示
+     * @param productId　商品番号
+     * @param productForm　入力内容
+     * @param model model
+     * @return 遷移先
+     */
+    @GetMapping("user/products/{productId}")
+    public String initProductDetail(@PathVariable("productId") Integer productId, @ModelAttribute ProductForm productForm, Model model) {
+        // ジャンル情報取得
+        setGenres(model);
+        // 商品番号を条件に商品を検索
+        Product product = productsService.getProductById(productId);
+        // 検索結果を入力内容に詰め替える
+        BeanUtils.copyProperties(product, productForm);
+        return "user/product";
+    }
+    
     
 
     /**
@@ -159,7 +178,6 @@ public class ProductController {
         return "user/purchase_history";
     }
     
-    
 
     /**
      * ジャンル一覧をモデルに追加する
@@ -174,9 +192,6 @@ public class ProductController {
         // モデルに格納
         model.addAttribute("genres", genres);
     }
-
-
-
 
     /**
      * 検索条件の商品一覧をモデルに追加する

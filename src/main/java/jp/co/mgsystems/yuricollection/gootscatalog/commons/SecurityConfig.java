@@ -17,7 +17,10 @@ public class SecurityConfig {
         return http
         .authorizeHttpRequests(authorize -> authorize
         .requestMatchers("/admin/**").hasRole("ADMIN")
-        .requestMatchers("/*").hasAnyRole("ADMIN", "USER")
+        .requestMatchers("/userCreate").permitAll()
+        .requestMatchers("/user/register").permitAll()
+        .requestMatchers("/user/saveSuccess").permitAll()
+        .requestMatchers("/user/verify").permitAll()
         .requestMatchers("/logout").permitAll()
         .requestMatchers("/login").permitAll()
         .anyRequest().authenticated()

@@ -174,10 +174,10 @@ public class ProductsServiceTest {
     void test012() {
         Product before = new Product();
         before.setProductName("カンタベリのロッド");
-        before.setGenre(new Genre(6,"その他小物"));
-        before.setPrice(70000);
-        before.setStocks(50);
-        before.setOrders(1);
+        before.setGenre(new Genre(6L,"その他小物"));
+        before.setPrice(70000L);
+        before.setStocks(50L);
+        before.setOrders(1L);
         before.setComment("カンタベリ大司教が使っていたロッドです");
         // 更新
         service.save(before);

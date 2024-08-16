@@ -5,12 +5,63 @@
 <mapper namespace="jp.co.mgsystems.yuricollection.gootscatalog.mappers.UsersMapper">
   <select id="selectByUsername" resultType="jp.co.mgsystems.yuricollection.gootscatalog.beans.User">
     SELECT
-        username,
-        password,
-        role
+      *
     FROM
-        users 
+      users 
     WHERE
         username = #{username}
   </select>
+
+  <select id="selectByUserId" resultType="jp.co.mgsystems.yuricollection.gootscatalog.beans.User">
+    SELECT
+      *
+    FROM
+      users 
+    WHERE
+      user_id = #{userId}
+  </select>
+
+  <insert id="insert" parameterType="jp.co.mgsystems.yuricollection.gootscatalog.beans.User"  useGeneratedKeys="true" keyProperty="userId">
+    INSERT INTO
+      users
+    (
+      username,
+      password,
+      role,
+      first_name,
+      last_name,
+      zip,
+      telno,
+      prefectures,
+      city,
+      address,
+      enabled,
+      created_at,
+      updated_at
+    )
+    VALUES (
+      #{username},
+      #{username},
+      'USER',
+      #{firstName},
+      #{lastName},
+      #{zip},
+      #{telno},
+      #{prefectures},
+      #{city},
+      #{address},
+      FALSE,
+      now(),
+      null
+    )
+  </insert>
+
+  <update id="authenticationCompleted">
+    UPDATE 
+      users 
+    SET
+      enabled = #{enabled}
+    WHERE
+      user_id = #{userId}
+  </update>
 </mapper>

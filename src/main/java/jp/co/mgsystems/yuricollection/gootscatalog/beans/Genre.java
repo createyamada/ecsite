@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Genre {
     // ジャンルID
     @NotNull
-    private Integer genreId;
+    private Long genreId;
     // ジャンル名
     private String genreName;
 }

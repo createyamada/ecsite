@@ -44,6 +44,15 @@ public class ProductsService {
     }
 
     /**
+     * 最近登録された5件の商品情報を取得
+     * @return 商品情報
+     */
+    public List<Product> getLatestProduct() {
+        return productsMapper.getLatestProduct();
+    }
+    
+
+    /**
      * 商品IDに紐づく商品情報を取得する
      * @param productId
      * @return 商品情報

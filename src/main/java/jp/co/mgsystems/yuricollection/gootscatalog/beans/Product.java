@@ -15,15 +15,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Product {
     // 商品ID
-    private Integer productId;
+    private Long productId;
     // 商品名
     private String productName;
     // 価格
-    private Integer price;
+    private Long price;
     // 在庫数
-    private Integer stocks;
+    private Long stocks;
     // 受注数
-    private Integer orders;
+    private Long orders;
     // コメント
     private String comment;
     // 商品ジャンル
