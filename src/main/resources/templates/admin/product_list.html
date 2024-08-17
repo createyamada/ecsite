@@ -18,7 +18,7 @@
     >
       <div class="container-fluid">
         <a th:text="#{site.title}" class="navbar-brand" th:href="@{/}"></a>
-        <a th:text="#{page.admin.productList}" class="navbar-brand"></a>
+        <a th:text="#{page.admin.main}" class="navbar-brand"></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -145,12 +145,12 @@
             ></button>
             <a
               th:text="#{btn.new}"
-              th:href="@{/products/new}"
+              th:href="@{/admin/products/new}"
               class="btn btn-primary me-1"
             ></a>
             <a
               th:text="#{btn.reset}"
-              th:href="@{/products/reset}"
+              th:href="@{/admin/products/reset}"
               class="btn btn-secondary me-1"
             >
             </a>
@@ -210,7 +210,7 @@
                 <th>
                   <a
                     th:text="${product.genre.genreName}"
-                    th:href="@{/products/} + *{product.productId}"
+                    th:href="@{/admin/products/} + *{product.productId}"
                   ></a>
                 </th>
                 <th th:text="${product.productName}"></th>

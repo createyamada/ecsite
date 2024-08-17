@@ -1,3 +1,14 @@
+SET
+    FOREIGN_KEY_CHECKS = 0;
+
+-- ジャンルテーブル作成
+DROP TABLE IF EXISTS genres;
+
+CREATE TABLE genres(
+    genre_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'ジャンルID',
+    genre_name VARCHAR(100) COMMENT 'ジャンル名'
+) COMMENT 'ジャンルマスタテーブル';
+
 -- 商品テーブル作成
 DROP TABLE IF EXISTS products;
 
@@ -5,27 +16,26 @@ CREATE TABLE products(
     product_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '商品ID',
     product_name VARCHAR(100) COMMENT '商品名',
     price BIGINT COMMENT '価格',
-    stocks BIGINT COMMENT '在庫数',
-    orders BIGINT COMMENT '注文数',
     comment VARCHAR(200) COMMENT 'コメント',
-    genre_id INT COMMENT 'ジャンルID',
+    genre_id BIGINT NOT NULL COMMENT 'ジャンルID',
     version INT COMMENT 'バージョン',
     created_at DATETIME COMMENT '登録日時',
-    updated_at DATETIME COMMENT '更新日時'
+    updated_at DATETIME COMMENT '更新日時',
+    FOREIGN KEY (genre_id) REFERENCES genres(genre_id)
 ) COMMENT '商品テーブル';
 
--- ジャンルテーブル作成
-DROP TABLE IF EXISTS genres;
+-- 在庫テーブル作成
+DROP TABLE IF EXISTS stocks;
 
-CREATE TABLE genres(
-    genre_id BIGINT NOT NULL PRIMARY KEY COMMENT 'ジャンルID',
-    genre_name VARCHAR(100) COMMENT 'ジャンル名'
-) COMMENT 'ジャンルマスタテーブル';
+CREATE TABLE stocks(
+    stock_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT NOT NULL COMMENT '商品ID',
+    stock_cnt INT COMMENT '在庫数',
+    created_at DATETIME COMMENT '登録日時',
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+) COMMENT '在庫テーブル';
 
 -- ユーザーマスタテーブル作成
-SET
-    FOREIGN_KEY_CHECKS = 0;
-
 DROP TABLE IF EXISTS users;
 
 SET
@@ -48,13 +58,26 @@ CREATE TABLE users(
     updated_at DATETIME COMMENT '更新日時'
 ) COMMENT 'ユーザマスタテーブル';
 
+-- 受注テーブル作成
+DROP TABLE IF EXISTS orders;
+
+CREATE TABLE orders(
+    order_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT NOT NULL COMMENT '商品ID',
+    user_id BIGINT NOT NULL COMMENT 'ユーザID',
+    order_cnt INT COMMENT '受注数',
+    created_at DATETIME COMMENT '登録日時',
+    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+) COMMENT '在庫テーブル';
+
 -- 認証トークンテーブル作成
 DROP TABLE IF EXISTS verification_tokens;
 
 CREATE TABLE verification_tokens(
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    token VARCHAR(255) NOT NULL,
-    user_id BIGINT NOT NULL,
-    expiration_time DATETIME NOT NULL,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '認証トークンID',
+    token VARCHAR(255) NOT NULL COMMENT 'トークン',
+    user_id BIGINT NOT NULL COMMENT 'ユーザID',
+    expiration_time DATETIME NOT NULL COMMENT 'トークン有効期限',
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 ) COMMENT '認証トークンテーブル';

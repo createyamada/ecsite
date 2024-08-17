@@ -1,11 +1,39 @@
+-- ジャンルデータ作成
+INSERT INTO
+    genres(genre_name)
+VALUES
+    ('ネックレス');
+
+INSERT INTO
+    genres(genre_name)
+VALUES
+    ('リング');
+
+INSERT INTO
+    genres(genre_name)
+VALUES
+    ('ピアス');
+
+INSERT INTO
+    genres(genre_name)
+VALUES
+    ('イヤリング');
+
+INSERT INTO
+    genres(genre_name)
+VALUES
+    ('ブレスレット');
+
+INSERT INTO
+    genres(genre_name)
+VALUES
+    ('その他小物');
+
 -- 商品データ追加
 INSERT INTO
     products(
-        -- product_id,
         product_name,
         price,
-        stocks,
-        orders,
         comment,
         genre_id,
         version,
@@ -14,11 +42,8 @@ INSERT INTO
     )
 VALUES
     (
-        -- 1,
         '永久のネックレス',
         1200,
-        10,
-        20,
         '永遠を誓うことのできるネックレスです',
         1,
         1,
@@ -28,11 +53,8 @@ VALUES
 
 INSERT INTO
     products(
-        -- product_id,
         product_name,
         price,
-        stocks,
-        orders,
         comment,
         genre_id,
         version,
@@ -41,11 +63,8 @@ INSERT INTO
     )
 VALUES
     (
-        -- 2,
         '破滅のリング',
         500,
-        5,
-        200,
         '相手を破滅させることのできるリングです',
         2,
         1,
@@ -55,11 +74,8 @@ VALUES
 
 INSERT INTO
     products(
-        -- product_id,
         product_name,
         price,
-        stocks,
-        orders,
         comment,
         genre_id,
         version,
@@ -68,11 +84,8 @@ INSERT INTO
     )
 VALUES
     (
-        -- 3,
         '不滅のピアス',
         10000,
-        1,
-        5000,
         '不滅になるピアスです',
         3,
         1,
@@ -82,11 +95,8 @@ VALUES
 
 INSERT INTO
     products(
-        -- product_id,
         product_name,
         price,
-        stocks,
-        orders,
         comment,
         genre_id,
         version,
@@ -95,11 +105,8 @@ INSERT INTO
     )
 VALUES
     (
-        -- 4,
         '勝利のイヤリング',
         500000,
-        1,
-        60000,
         '勝利を勝ち取ることのできるイヤリングです',
         4,
         1,
@@ -109,11 +116,8 @@ VALUES
 
 INSERT INTO
     products(
-        -- product_id,
         product_name,
         price,
-        stocks,
-        orders,
         comment,
         genre_id,
         version,
@@ -122,11 +126,8 @@ INSERT INTO
     )
 VALUES
     (
-        -- 5,
         '火事場のブレスレット',
         10000,
-        1,
-        3000,
         '火事場を力を引き出すことのできるブレスレットです',
         5,
         1,
@@ -136,11 +137,8 @@ VALUES
 
 INSERT INTO
     products(
-        -- product_id,
         product_name,
         price,
-        stocks,
-        orders,
         comment,
         genre_id,
         version,
@@ -149,11 +147,8 @@ INSERT INTO
     )
 VALUES
     (
-        -- 6,
         '絶壁のガントレット',
         600,
-        1,
-        500,
         '絶壁のような防御力を誇るガントレットです',
         6,
         1,
@@ -161,36 +156,114 @@ VALUES
         null
     );
 
--- ジャンルデータ作成
+-- 在庫データ作成
 INSERT INTO
-    genres(genre_id, genre_name)
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
 VALUES
-    (1, 'ネックレス');
+    (1, 10, now());
 
 INSERT INTO
-    genres(genre_id, genre_name)
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
 VALUES
-    (2, 'リング');
+    (1, 20, now());
 
 INSERT INTO
-    genres(genre_id, genre_name)
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
 VALUES
-    (3, 'ピアス');
+    (2, 20, now());
 
 INSERT INTO
-    genres(genre_id, genre_name)
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
 VALUES
-    (4, 'イヤリング');
+    (2, 40, now());
 
 INSERT INTO
-    genres(genre_id, genre_name)
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
 VALUES
-    (5, 'ブレスレット');
+    (3, 30, now());
 
 INSERT INTO
-    genres(genre_id, genre_name)
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
 VALUES
-    (6, 'その他小物');
+    (3, 60, now());
+
+INSERT INTO
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
+VALUES
+    (4, 40, now());
+
+INSERT INTO
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
+VALUES
+    (4, 80, now());
+
+INSERT INTO
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
+VALUES
+    (5, 50, now());
+
+INSERT INTO
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
+VALUES
+    (5, 100, now());
+
+INSERT INTO
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
+VALUES
+    (6, 60, now());
+
+INSERT INTO
+    stocks(
+        product_id,
+        stock_cnt,
+        created_at
+    )
+VALUES
+    (6, 120, now());
 
 -- ユーザデータ作成
 INSERT INTO
@@ -211,7 +284,7 @@ INSERT INTO
     )
 VALUES
     (
-        'mgsystems.priv.co.ltd@gmail.com',
+        'test',
         '$2a$10$2N3VfsGYspPWmrW0VW9TvOuL5/r.Q80yUUeZSd.AFD8fphXbuQta6',
         'USER',
         'テスト',
@@ -244,7 +317,7 @@ INSERT INTO
     )
 VALUES
     (
-        'mgsystems.priv.co.ltd@gmail.com',
+        'admin',
         '$2a$10$2N3VfsGYspPWmrW0VW9TvOuL5/r.Q80yUUeZSd.AFD8fphXbuQta6',
         'ADMIN',
         '管理者',
@@ -258,3 +331,124 @@ VALUES
         now(),
         null
     );
+
+-- 受注データ作成
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (1, 1, 11, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (1, 2, 22, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (2, 1, 33, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (2, 2, 44, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (3, 1, 55, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (3, 2, 66, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (4, 1, 77, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (4, 2, 88, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (5, 1, 99, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (5, 2, 111, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (6, 1, 222, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (6, 2, 333, now());

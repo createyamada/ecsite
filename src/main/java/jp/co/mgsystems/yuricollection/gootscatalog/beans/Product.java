@@ -19,7 +19,7 @@ public class Product {
     // 商品名
     private String productName;
     // 価格
-    private Long price;
+    private Integer price;
     // 在庫数
     private Long stocks;
     // 受注数

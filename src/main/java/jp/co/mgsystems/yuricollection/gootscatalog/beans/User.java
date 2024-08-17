@@ -13,6 +13,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+/**
+ * ユーザ情報
+ */
 @Data
 @NoArgsConstructor
 @Getter

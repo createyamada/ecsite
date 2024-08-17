@@ -1,17 +1,7 @@
 package jp.co.mgsystems.yuricollection.gootscatalog.mappers;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
-import jp.co.mgsystems.yuricollection.gootscatalog.beans.Product;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.User;
-import jp.co.mgsystems.yuricollection.gootscatalog.forms.UserSaveForm;
 
 @Mapper
 public interface UsersMapper {

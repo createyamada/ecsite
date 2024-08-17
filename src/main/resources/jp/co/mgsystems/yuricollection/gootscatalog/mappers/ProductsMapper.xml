@@ -20,13 +20,30 @@
   </select>
   <select id="getProductByCondition" resultMap="productMap">
     SELECT
-      * 
+      products.product_id as product_id,
+      product_name,
+      price,
+      comment,
+      products.genre_id as genre_id,
+      genres.genre_name as genre_name,
+      version,
+      products.created_at,
+      sum(stock_cnt) as stocks,
+      sum(order_cnt) as orders
     FROM
-      products 
+        products
     LEFT OUTER JOIN 
-      genres 
+        genres 
     ON 
-      products.genre_id = genres.genre_id 
+        products.genre_id = genres.genre_id 
+    INNER JOIN
+        stocks
+    ON
+        products.product_id = stocks.product_id
+    INNER JOIN
+        orders 
+    ON
+        products.product_id = orders.product_id
     <where>
       <if test="genreId != null">
         AND products.genre_id = #{genreId}
@@ -35,8 +52,10 @@
         AND products.product_name LIKE CONCAT('%', #{keyword}, '%')
       </if>
     </where>
+    GROUP BY
+      products.product_id
     ORDER BY
-      product_id
+      products.product_id
   </select>
 
   <select id="getLatestProduct" resultMap="productMap" >
@@ -73,8 +92,6 @@
     SET
       product_name = #{productName}, 
       price = #{price},
-      stocks = #{stocks},
-      orders = #{orders},
       comment = #{comment},
       genre_id = #{genre.genreId},
       version = version + 1,
@@ -91,8 +108,6 @@
     (
       product_name,
       price,
-      stocks,
-      orders,
       comment,
       genre_id,
       version,
@@ -102,8 +117,6 @@
     VALUES (
       #{productName},
       #{price},
-      #{stocks},
-      #{orders},
       #{comment},
       #{genre.genreId},
       1,

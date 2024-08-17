@@ -41,7 +41,7 @@
     )
     VALUES (
       #{username},
-      #{username},
+      #{password},
       'USER',
       #{firstName},
       #{lastName},

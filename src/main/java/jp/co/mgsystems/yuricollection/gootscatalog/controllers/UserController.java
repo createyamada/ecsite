@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
-import org.springframework.mail.MailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,17 +18,15 @@ import jp.co.mgsystems.yuricollection.gootscatalog.forms.UserSaveForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.ProductsService;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.UsersService;
 
-
+/*
+ * ユーザの画面遷移のみ等シンプルな処理を記載
+ */
 @Controller
 // @RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UsersService usersService;
-
-    @Autowired
-    private MailSender mailSender;
-
 
     @Autowired
     ProductsService productsService;
@@ -45,15 +43,6 @@ public class UserController {
         return "user/user_edit";
     }
 
-    /**
-     * ログアウト画面初期表示
-     * @return 遷移先
-     */
-    @PostMapping("/userCreate")
-    public String initUserCreate(Model model) {
-        model.addAttribute("userSaveForm", new UserSaveForm());
-        return "common/user_create";
-    }
 
     @PostMapping("/user/register")
     public String register(@ModelAttribute UserSaveForm userSaveForm ,Model model) {
@@ -68,7 +57,7 @@ public class UserController {
         BeanUtils.copyProperties(userSaveForm, user);
         usersService.register(user);
         // model.addAttribute("message", "登録が成功しました。メールを確認してアカウントを有効化してください。");
-        return "redirect:/user/saveSuccess";
+        return "redirect:/saveSuccess";
     }
 
     @RequestMapping("/user/saveSuccess")

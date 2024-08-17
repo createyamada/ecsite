@@ -41,7 +41,16 @@ public class CommonController {
         return "common/logout";
     }
 
-
+    /**
+     * ユーザ作成処理
+     * @return 遷移先
+     */
+    @PostMapping("/userCreate")
+    public String initUserCreate(Model model) {
+        model.addAttribute("userSaveForm", new UserSaveForm());
+        return "common/user_create";
+    }
+    
     /**
      * メイン画面初期表示
      * @return 遷移先

@@ -18,7 +18,7 @@
     >
       <div class="container-fluid">
         <a th:text="#{site.title}" class="navbar-brand" th:href="@{/}"></a>
-        <a th:text="#{page.admin.product}" class="navbar-brand"></a>
+        <a th:text="#{page.admin.main}" class="navbar-brand"></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -96,6 +96,11 @@
 
     <div class="container">
       <form method="post" th:object="${productForm}">
+        <input
+          type="hidden"
+          th:name="${_csrf.parameterName}"
+          th:value="${_csrf.token}"
+        />
         <div class="row">
           <div class="col">
             <div
@@ -233,13 +238,13 @@
             <button
               class="btn btn-primary"
               type="submit"
-              th:formaction="@{/products/save}"
+              th:formaction="@{/admin/products/save}"
               th:text="#{btn.save}"
             ></button>
             <button
               class="btn btn-danger"
               type="submit"
-              th:formaction="@{/products/delete}"
+              th:formaction="@{/admin/products/delete}"
               th:if="${productForm.productId}"
               th:text="#{btn.delete}"
             ></button>

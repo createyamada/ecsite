@@ -14,7 +14,7 @@ public class AdminController {
         return "admin/main";
     }
 
-    @GetMapping("admin/userManagement")
+    @GetMapping("/admin/userManagement")
     public String getMethodName() {
         return "admin/user_management";
     }

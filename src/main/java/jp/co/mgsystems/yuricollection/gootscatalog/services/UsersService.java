@@ -2,26 +2,19 @@ package jp.co.mgsystems.yuricollection.gootscatalog.services;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.User;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.VerificationToken;
-import jp.co.mgsystems.yuricollection.gootscatalog.forms.UserSaveForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.mappers.TokenMapper;
 import jp.co.mgsystems.yuricollection.gootscatalog.mappers.UsersMapper;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +45,7 @@ public class UsersService implements UserDetailsService {
             throw new UsernameNotFoundException("ユーザが存在しない");
         }
 
-        if(user.getEnabled()) {
+        if(user.getEnabled() == false) {
             throw new UsernameNotFoundException("ユーザ登録が完了していません");
 
         }
