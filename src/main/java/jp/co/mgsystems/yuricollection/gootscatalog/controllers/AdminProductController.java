@@ -13,9 +13,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.Genre;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.Product;
+import jp.co.mgsystems.yuricollection.gootscatalog.beans.Stock;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.ProductForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.SearchForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.ProductsService;
+import jp.co.mgsystems.yuricollection.gootscatalog.services.StocksService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +31,9 @@ public class AdminProductController {
 
     @Autowired
     ProductsService productsService;
+
+    @Autowired
+    StocksService stocksService;
 
     /**
      * 検索条件から商品を検索する
@@ -108,6 +114,19 @@ public class AdminProductController {
             // 入力内容を詰め替える
             BeanUtils.copyProperties(productForm, product);
             productsService.save(product);
+
+            // 在庫テーブル登録に必要なデータを整形する
+            Stock stock = new Stock(
+                null,
+                product.getProductId(),
+                product.getStocks(), 
+                null,
+                null,
+                null
+            );
+
+            stocksService.save(stock);
+
         } catch(OptimisticLockingFailureException e) {
             result.addError(new ObjectError("global", e.getMessage()));
             return "admin/product";

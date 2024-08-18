@@ -161,109 +161,133 @@ INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (1, 10, now());
+    (1, 10, 1, now(), null);
 
 INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (1, 20, now());
+    (1, 20, 1, now(), null);
 
 INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (2, 20, now());
+    (2, 20, 1, now(), null);
 
 INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (2, 40, now());
+    (2, 40, 1, now(), null);
 
 INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (3, 30, now());
+    (3, 30, 1, now(), null);
 
 INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (3, 60, now());
+    (3, 60, 1, now(), null);
 
 INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (4, 40, now());
+    (4, 40, 1, now(), null);
 
 INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (4, 80, now());
+    (4, 80, 1, now(), null);
 
 INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (5, 50, now());
+    (5, 50, 1, now(), null);
 
 INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (5, 100, now());
+    (5, 100, 1, now(), null);
 
 INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (6, 60, now());
+    (6, 60, 1, now(), null);
 
 INSERT INTO
     stocks(
         product_id,
         stock_cnt,
-        created_at
+        version,
+        created_at,
+        updated_at
     )
 VALUES
-    (6, 120, now());
+    (6, 120, 1, now(), null);
 
 -- ユーザデータ作成
 INSERT INTO
@@ -357,6 +381,17 @@ INSERT INTO
     orders(
         product_id,
         user_id,
+        is_cancel,
+        order_cnt,
+        created_at
+    )
+VALUES
+    (1, 1, 100, TRUE, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
         order_cnt,
         created_at
     )
@@ -392,6 +427,17 @@ INSERT INTO
     )
 VALUES
     (3, 2, 66, now());
+
+INSERT INTO
+    orders(
+        product_id,
+        user_id,
+        order_cnt,
+        is_cancel,
+        created_at
+    )
+VALUES
+    (3, 2, 100, TRUE, now());
 
 INSERT INTO
     orders(

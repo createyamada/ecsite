@@ -6,7 +6,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -97,6 +99,27 @@ public class UsersService implements UserDetailsService {
         usersMapper.authenticationCompleted(user);
         tokenMapper.deleteToken(verificationToken.getId());
         return true;
+    }
+
+
+    /**
+     * ユーザ名からユーザIDを取得する
+     * @return ユーザ名
+     */
+    public Long getLogInUserId() {
+        String login_username = this.getLogInUsername();
+        User user = usersMapper.selectByUsername(login_username);
+        return user.getUserId();
+    }
+
+    /**
+     * ログイン中のユーザ名を取得する
+     * @return ユーザ名
+     */
+    private String getLogInUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        org.springframework.security.core.userdetails.User userDetails = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        return userDetails.getUsername();
     }
     
 }

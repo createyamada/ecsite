@@ -21,7 +21,7 @@ public class Product {
     // 価格
     private Integer price;
     // 在庫数
-    private Long stocks;
+    private Integer stocks;
     // 受注数
     private Long orders;
     // コメント

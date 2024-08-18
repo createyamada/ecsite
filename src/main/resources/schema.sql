@@ -31,8 +31,10 @@ CREATE TABLE stocks(
     stock_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     product_id BIGINT NOT NULL COMMENT '商品ID',
     stock_cnt INT COMMENT '在庫数',
+    version INT COMMENT 'バージョン',
     created_at DATETIME COMMENT '登録日時',
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
+    updated_at DATETIME COMMENT '更新日時',
+    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 ) COMMENT '在庫テーブル';
 
 -- ユーザーマスタテーブル作成
@@ -66,8 +68,10 @@ CREATE TABLE orders(
     product_id BIGINT NOT NULL COMMENT '商品ID',
     user_id BIGINT NOT NULL COMMENT 'ユーザID',
     order_cnt INT COMMENT '受注数',
+    is_cancel BOOLEAN DEFAULT FALSE COMMENT 'キャンセルフラグ',
     created_at DATETIME COMMENT '登録日時',
-    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    updated_at DATETIME COMMENT '更新日時',
+    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 ) COMMENT '在庫テーブル';
 

@@ -5,17 +5,25 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.Genre;
+import jp.co.mgsystems.yuricollection.gootscatalog.beans.Order;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.Product;
+import jp.co.mgsystems.yuricollection.gootscatalog.beans.User;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.ProductForm;
+import jp.co.mgsystems.yuricollection.gootscatalog.services.OrdersService;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.ProductsService;
+import jp.co.mgsystems.yuricollection.gootscatalog.services.UsersService;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 // @RequestMapping("/user")
@@ -23,7 +31,13 @@ import jp.co.mgsystems.yuricollection.gootscatalog.services.ProductsService;
 public class UserProductController {
     
     @Autowired
+    UsersService usersService;
+
+    @Autowired
     ProductsService productsService;
+
+    @Autowired
+    OrdersService ordersService;
 
     @GetMapping("/user/purchaseHistory")
     public String initProductHistory() {
@@ -50,6 +64,23 @@ public class UserProductController {
     }
 
 
+    @PostMapping("/user/purchase")
+    public String purchase(ProductForm productForm) {
+        Order order = new Order();
+        // 入力内容を詰め替える
+        // BeanUtils.copyProperties(productForm, order);
+        // ログイン中のユーザIDを取得しセットする
+        Long loginUserId = usersService.getLogInUserId();
+        order.setUserId(loginUserId);
+        order.setProductId(productForm.getProductId());
+        order.setOrderCnt(productForm.getOrders());
+        // 登録
+        ordersService.save(order);
+        return "user/main";
+    }
+    
+
+
     /**
      * ジャンル一覧をモデルに追加する
      * @param searchForm
@@ -63,4 +94,6 @@ public class UserProductController {
         // モデルに格納
         model.addAttribute("genres", genres);
     }
+
+
 }

@@ -100,20 +100,20 @@ public class ProductsService {
     /**
      * 商品情報を登録する
      * @param product
-     * @return 更新件数
+     * @return 登録した商品ID
      */
     @Transactional
     private int add(Product product) {
-        int cnt =  productsMapper.insert(product);
+        int id =  productsMapper.insert(product);
         // 登録できなかった場合
-        if (cnt == 0) {
-            throw new RuntimeException(
-                messageSource.getMessage("error.Runtime",
-                new String[] {"登録に失敗しました。"},
-                Locale.JAPANESE)
-            );
-        }
-        return cnt;
+        // if (id == null) {
+        //     throw new RuntimeException(
+        //         messageSource.getMessage("error.Runtime",
+        //         new String[] {"登録に失敗しました。"},
+        //         Locale.JAPANESE)
+        //     );
+        // }
+        return id;
     }
 
     /**

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.mgsystems.yuricollection.gootscatalog.mappers.StocksMapper">
+    <update id="update">
+        UPDATE 
+            stocks 
+        SET
+          product_id = #{productId}, 
+          stock_cnt = #{stockCnt},
+          comment = #{comment},
+          created_at = #{createdAt}
+        WHERE
+          stock_id = #{stockId}
+      </update>
+      <insert id="insert" parameterType="jp.co.mgsystems.yuricollection.gootscatalog.beans.Stock">
+        INSERT INTO
+          stocks
+        (
+          product_id,
+          stock_cnt,
+          version,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          #{productId},
+          #{stockCnt},
+          1,
+          now(),
+          null
+        )
+      </insert>
+  
+</mapper>

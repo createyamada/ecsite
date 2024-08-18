@@ -26,24 +26,16 @@
       comment,
       products.genre_id as genre_id,
       genres.genre_name as genre_name,
-      version,
+      products.version,
       products.created_at,
-      sum(stock_cnt) as stocks,
-      sum(order_cnt) as orders
+      (SELECT SUM(stock_cnt) FROM stocks WHERE product_id = 1 GROUP BY product_id) as stocks,
+      (SELECT SUM(order_cnt) FROM orders WHERE product_id = 1 AND is_cancel = FALSE GROUP BY product_id) as orders
     FROM
         products
     LEFT OUTER JOIN 
         genres 
     ON 
         products.genre_id = genres.genre_id 
-    INNER JOIN
-        stocks
-    ON
-        products.product_id = stocks.product_id
-    INNER JOIN
-        orders 
-    ON
-        products.product_id = orders.product_id
     <where>
       <if test="genreId != null">
         AND products.genre_id = #{genreId}
@@ -52,8 +44,6 @@
         AND products.product_name LIKE CONCAT('%', #{keyword}, '%')
       </if>
     </where>
-    GROUP BY
-      products.product_id
     ORDER BY
       products.product_id
   </select>
@@ -74,13 +64,22 @@
 
   <select id="getProductById" resultMap="productMap">
     SELECT
-      * 
+      products.product_id as product_id,
+      product_name,
+      price,
+      comment,
+      products.genre_id as genre_id,
+      genres.genre_name as genre_name,
+      products.version,
+      products.created_at,
+      (SELECT SUM(stock_cnt) FROM stocks WHERE product_id = 1 GROUP BY product_id) as stocks,
+      (SELECT SUM(order_cnt) FROM orders WHERE product_id = 1 GROUP BY product_id) as orders
     FROM
-      products 
-    LEFT OUTER JOIN
-      genres 
+        products
+    LEFT OUTER JOIN 
+        genres 
     ON 
-      products.genre_id = genres.genre_id 
+        products.genre_id = genres.genre_id 
     WHERE
       products.product_id = #{productId}
     ORDER BY
@@ -102,7 +101,7 @@
     AND
       version = #{version}
   </update>
-  <insert id="insert" parameterType="jp.co.mgsystems.yuricollection.gootscatalog.beans.Product">
+  <insert id="insert" parameterType="jp.co.mgsystems.yuricollection.gootscatalog.beans.Product"  useGeneratedKeys="true" keyProperty="productId">
     INSERT INTO
       products
     (

@@ -45,7 +45,7 @@ public interface ProductsMapper {
     /**
      * 商品情報を登録する
      * @param product　商品情報
-     * @return　登録件数
+     * @return　登録したproductId
      */
     public int insert(Product product);
 

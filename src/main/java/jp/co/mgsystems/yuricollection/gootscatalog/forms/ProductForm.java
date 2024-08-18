@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 public class ProductForm {
     // 商品ID
-    private Integer productId;
+    private Long productId;
     // 商品名
     @NotBlank
     @Size(min = 1, max= 50)

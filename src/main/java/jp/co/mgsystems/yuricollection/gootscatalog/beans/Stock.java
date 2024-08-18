@@ -1,5 +1,7 @@
 package jp.co.mgsystems.yuricollection.gootscatalog.beans;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +19,10 @@ public class Stock {
     private Long productId;   
     // 在庫個数
     private Integer stockCnt; 
+    // バージョン
+    private Integer version;
+    // 登録日
+    private LocalDateTime createdAt;
+    // 更新日
+    private LocalDateTime updatedAt;
 }
