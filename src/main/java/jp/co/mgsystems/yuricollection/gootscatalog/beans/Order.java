@@ -19,7 +19,11 @@ public class Order {
     // 注文ユーザID
     private Long userId;
     // 注文商品ID
-    private Long productId;   
+    private Long productId;
+    // 商品名
+    private String productName;   
+    // ジャンル名
+    private String genreName;
     // 注文個数
     private Integer orderCnt; 
     // キャンセルフラグ

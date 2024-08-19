@@ -29,12 +29,22 @@ public class UserController {
     @Autowired
     ProductsService productsService;
 
+
+    /**
+     * ユーザメイン画面初期表示
+     * @return 遷移先
+     */
     @GetMapping("/user")
     public String init() {
         // ユーザメインページへのビュー名を返す
         return "user/main";
     }
 
+
+    /**
+     * ユーザ編集画面初期表示
+     * @return　遷移先
+     */
     @GetMapping("/user/userEdit")
     public String initUserEdit() {
         // ユーザメインページへのビュー名を返す
@@ -42,6 +52,12 @@ public class UserController {
     }
 
 
+    /**
+     * ユーザ情報新規登録
+     * @param userSaveForm 登録ユーザ情報
+     * @param model モデル
+     * @return 遷移先
+     */
     @PostMapping("/user/register")
     public String register(@ModelAttribute UserSaveForm userSaveForm ,Model model) {
         // パスワードのエンコード
@@ -58,12 +74,22 @@ public class UserController {
         return "redirect:/saveSuccess";
     }
 
+    /**
+     * 新規登録成功時の画面を返す画面
+     * @return 遷移先
+     */
     @RequestMapping("/user/saveSuccess")
     public String requestMethodName() {
         return "common/valification";
     }
     
 
+    /**
+     * ユーザアカウント利用可能化処理
+     * @param token トークン
+     * @param model モデル
+     * @return 遷移先
+     */
     @GetMapping("/user/verify")
     public String verifyAccount(@RequestParam("token") String token, Model model) {
         boolean verified = usersService.verifyUser(token);

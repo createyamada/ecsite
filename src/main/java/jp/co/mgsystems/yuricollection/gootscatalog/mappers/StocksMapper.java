@@ -1,7 +1,10 @@
 package jp.co.mgsystems.yuricollection.gootscatalog.mappers;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.Stock;
+import jp.co.mgsystems.yuricollection.gootscatalog.forms.SearchForm;
 
 @Mapper
 public interface StocksMapper {
@@ -20,5 +23,13 @@ public interface StocksMapper {
      * @return　登録件数
      */
     public int insert(Stock stock);
+
+    
+    /**
+     * 検索条件から在庫情報を検索する
+     * @param searchCondition 検索条件
+     * @return 在庫情報
+     */
+    public List<Stock> getStockByCondition(SearchForm searchCondition);
 
 }

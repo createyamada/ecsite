@@ -87,7 +87,137 @@
       </div>
     </nav>
 
-    <div class="container"><h1>ユーザ購入履歴</h1></div>
+    <div class="container">
+      <form th:action="@{/user/purchaseHistory}" method="get">
+        <div class="row justify-content-around">
+          <div class="col-3">
+            <label
+              th:text="#{searchForm.genre}"
+              for="genre"
+              class="form-label"
+            ></label>
+            <select
+              id="genre"
+              th:field="${searchForm.genreId}"
+              class="form-select"
+              aria-label="Default select example"
+            >
+              <option value="" th:text="#{placeholder.genre}"></option>
+              <option
+                th:each="genre : ${genres}"
+                th:text="${genre.genreName}"
+                th:value="${genre.genreId}"
+              ></option>
+            </select>
+          </div>
+          <div class="col-3">
+            <div class="mb-3">
+              <label
+                th:text="#{searchForm.keyword}"
+                for="keyword"
+                class="form-label"
+              ></label>
+              <input
+                type="text"
+                id="keyword"
+                class="form-control"
+                th:field="${searchForm.keyword}"
+                th:placeholder="#{placeholder.keyword}"
+              />
+              <div class="text-danger" th:errors="${searchForm.keyword}"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col d-flex flex-row-reverse">
+            <button
+              th:text="#{btn.delete}"
+              type="button"
+              class="btn btn-danger"
+            ></button>
+            <a
+              th:text="#{btn.new}"
+              th:href="@{/admin/products/new}"
+              class="btn btn-primary me-1"
+            ></a>
+            <a
+              th:text="#{btn.reset}"
+              th:href="@{/admin/products/reset}"
+              class="btn btn-secondary me-1"
+            >
+            </a>
+            <button
+              th:text="#{btn.search}"
+              type="submit"
+              class="btn btn-success ms-1 me-1"
+            ></button>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col">
+          <table class="table table-dark table-striped mt-3">
+            <thead>
+              <tr>
+                <th
+                  th:text="#{label.productId}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.productName}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.genre}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.orders}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.isCancel}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.createdAt}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="order : ${orders}">
+                <th>
+                  <a
+                    th:text="${order.orderId}"
+                    th:href="@{/admin/order/} + *{order.orderId}"
+                  ></a>
+                </th>
+                <th th:text="${order.productName}"></th>
+                <th th:text="${order.genreName}"></th>
+                <th
+                  th:text="${#numbers.formatInteger(order.orderCnt,3,'COMMA')}"
+                  class="text-end"
+                ></th>
+                <th
+                  th:text="${order.isCancel} ? 'キャンセル済み' : '注文済み'"
+                ></th>
+                <th
+                  th:text="${#temporals.format(order.createdAt, 'yyyy/MM/dd HH:mm')}"
+                ></th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

@@ -5,6 +5,8 @@ import lombok.Data;
 
 @Data
 public class SearchForm {
+    // ユーザID
+    private Long userId;
     // ジャンルID
     private Integer genreId;
     // キーワード

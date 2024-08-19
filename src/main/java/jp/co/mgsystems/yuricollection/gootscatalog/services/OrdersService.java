@@ -1,13 +1,14 @@
 package jp.co.mgsystems.yuricollection.gootscatalog.services;
 
+import java.util.List;
 import java.util.Locale;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.Order;
+import jp.co.mgsystems.yuricollection.gootscatalog.forms.SearchForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.mappers.OrdersMapper;
 
 @Service
@@ -81,5 +82,14 @@ public class OrdersService {
             );
         }
         return cnt;
+    }
+
+    /**
+     * 検索条件から受注情報を取得
+     * @param searchCondition 検索条件
+     * @return 在庫情報
+     */
+    public List<Order> getOrderByCondition(SearchForm searchCondition) {
+        return ordersMapper.getOrderByCondition(searchCondition);
     }
 }

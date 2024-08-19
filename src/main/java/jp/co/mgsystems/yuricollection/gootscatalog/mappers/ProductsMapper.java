@@ -16,7 +16,7 @@ public interface ProductsMapper {
 
     /**
      * 商品情報を指定条件検索
-     * @param searchCondition 
+     * @param searchCondition 検索条件
      * @return 商品情報リスト
      */
     public List<Product> getProductByCondition(SearchForm searchCondition);

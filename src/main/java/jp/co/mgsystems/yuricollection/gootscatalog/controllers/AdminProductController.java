@@ -18,6 +18,7 @@ import jp.co.mgsystems.yuricollection.gootscatalog.forms.ProductForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.SearchForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.ProductsService;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.StocksService;
+import jp.co.mgsystems.yuricollection.gootscatalog.services.UsersService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,6 +32,9 @@ public class AdminProductController {
 
     @Autowired
     ProductsService productsService;
+
+    @Autowired
+    UsersService usersService;
 
     @Autowired
     StocksService stocksService;
@@ -55,6 +59,24 @@ public class AdminProductController {
         return "admin/product_list";
     }
 
+    /**
+     * 検索条件から商品を検索する
+     * @param searchForm
+     * @param model
+     * @return 遷移先
+     */
+    @RequestMapping("/admin/stocks")
+    public String stocks(@Validated SearchForm searchForm, Model model) {
+        // 情報検索しmodelに格納
+        this.setGenres(model);
+       // 在庫情報取得
+       List<Stock> stocks = new ArrayList<>();
+       stocks = stocksService.getStockByCondition(searchForm);
+        // モデルに格納
+        model.addAttribute("stocks", stocks);
+        // テンプレートを返す
+        return "admin/stock_list";
+    }
 
     /**
      * 検索条件をクリアする
@@ -93,7 +115,6 @@ public class AdminProductController {
 
 
 
-
     /**
      * 商品情報を保存する
      * @param productForm 入力内容
@@ -119,7 +140,7 @@ public class AdminProductController {
             Stock stock = new Stock(
                 null,
                 product.getProductId(),
-                product.getStocks(), 
+                null, null, product.getStocks(), 
                 null,
                 null,
                 null

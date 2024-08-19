@@ -80,6 +80,13 @@
                 ></a>
               </li>
               <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/admin/stocks}"
+                  th:text="#{admin.menu.stocks}"
+                ></a>
+              </li>
+              <li class="nav-item">
                 <form th:action="@{/logout}" method="post">
                   <button
                     class="nav-link"

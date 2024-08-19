@@ -3,6 +3,37 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jp.co.mgsystems.yuricollection.gootscatalog.mappers.OrdersMapper">
+  <resultMap id="orderMap" type="jp.co.mgsystems.yuricollection.gootscatalog.beans.Order" autoMapping="true">
+  </resultMap>
+  <select id="getOrderByCondition" resultMap="orderMap">
+    SELECT
+      order_id,
+      orders.product_id as product_id,
+      products.product_name as product_name,
+      genres.genre_name as genre_name,
+      order_cnt,
+      is_cancel,
+      orders.created_at as created_at,
+      orders.updated_at as updated_at
+    FROM
+      orders 
+      LEFT OUTER JOIN products 
+          ON orders.product_id = products.product_id 
+      LEFT OUTER JOIN genres 
+          ON products.genre_id = genres.genre_id
+    <where>
+      <if test="genreId != null">
+        AND products.genre_id = #{genreId}
+      </if>
+      <if test="keyword != null">
+        AND products.product_name LIKE CONCAT('%', #{keyword}, '%')
+      </if>
+      AND user_id = #{userId}
+    </where>
+    ORDER BY
+      orders.order_id
+  </select>
+
     <update id="update">
         UPDATE 
             orders 

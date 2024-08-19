@@ -102,7 +102,7 @@
     </nav>
 
     <div class="container">
-      <form th:action="@{/admin/products}" method="get">
+      <form th:action="@{/admin/stocks}" method="get">
         <div class="row justify-content-around">
           <div class="col-3">
             <label
@@ -195,16 +195,6 @@
                   class="text-center"
                 ></th>
                 <th
-                  th:text="#{label.orders}"
-                  scope="col"
-                  class="text-center"
-                ></th>
-                <th
-                  th:text="#{label.price}"
-                  scope="col"
-                  class="text-center"
-                ></th>
-                <th
                   th:text="#{label.createdAt}"
                   scope="col"
                   class="text-center"
@@ -212,29 +202,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr th:each="product : ${products}">
-                <th scope="row" th:text="${product.productId}"></th>
+              <tr th:each="stock : ${stocks}">
                 <th>
                   <a
-                    th:text="${product.productName}"
-                    th:href="@{/admin/products/} + *{product.productId}"
+                    th:text="${stock.stockId}"
+                    th:href="@{/admin/stock/} + *{stock.stockId}"
                   ></a>
                 </th>
-                <th th:text="${product.genre.genreName}"></th>
+                <th th:text="${stock.productName}"></th>
+                <th th:text="${stock.genreName}"></th>
                 <th
-                  th:text="${#numbers.formatInteger(product.stocks,3,'COMMA')}"
+                  th:text="${#numbers.formatInteger(stock.stockCnt,3,'COMMA')}"
                   class="text-end"
                 ></th>
                 <th
-                  th:text="${#numbers.formatInteger(product.orders,3,'COMMA')}"
-                  class="text-end"
-                ></th>
-                <th
-                  th:text="${#numbers.formatInteger(product.price,3,'COMMA')}"
-                  class="text-end"
-                ></th>
-                <th
-                  th:text="${#temporals.format(product.createdAt, 'yyyy/MM/dd HH:mm')}"
+                  th:text="${#temporals.format(stock.createdAt, 'yyyy/MM/dd HH:mm')}"
                 ></th>
               </tr>
             </tbody>

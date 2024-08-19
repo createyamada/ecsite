@@ -16,7 +16,11 @@ public class Stock {
     // 在庫ID
     private Long stockId;
     // 在庫商品ID
-    private Long productId;   
+    private Long productId;  
+    // 商品名
+    private String productName;
+    // ジャンル名
+    private String genreName;
     // 在庫個数
     private Integer stockCnt; 
     // バージョン

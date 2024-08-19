@@ -1,5 +1,6 @@
 package jp.co.mgsystems.yuricollection.gootscatalog.services;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.Stock;
+import jp.co.mgsystems.yuricollection.gootscatalog.forms.SearchForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.mappers.StocksMapper;
 
 @Service
@@ -81,5 +83,15 @@ public class StocksService {
             );
         }
         return cnt;
+    }
+
+
+    /**
+     * 検索条件から在庫情報を取得
+     * @param searchCondition 検索条件
+     * @return 在庫情報
+     */
+    public List<Stock> getStockByCondition(SearchForm searchCondition) {
+        return stocksMapper.getStockByCondition(searchCondition);
     }
 }
