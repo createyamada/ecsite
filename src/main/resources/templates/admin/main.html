@@ -62,21 +62,21 @@
                 <a
                   class="nav-link"
                   th:href="@{/admin/products}"
-                  th:text="#{admin.menu.product_list}"
+                  th:text="#{admin.menu.productList}"
                 ></a>
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link"
                   th:href="@{/admin/userManagement}"
-                  th:text="#{admin.menu.user_management}"
+                  th:text="#{admin.menu.userManagement}"
                 ></a>
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link"
                   th:href="@{/admin/products/new}"
-                  th:text="#{admin.menu.new_item_add}"
+                  th:text="#{admin.menu.newItemAdd}"
                 ></a>
               </li>
               <li class="nav-item">
@@ -102,6 +102,26 @@
     </nav>
 
     <div class="container"><h1>管理者用メイン画面です</h1></div>
+    <h1>ユーザ用メイン画面です</h1>
+    <div class="row row-cols-1 row-cols-md-6 g-4">
+      <div class="col" th:each="product : ${products}">
+        <div class="card w-100 h-100">
+          <a th:href="@{/user/products/} + *{product.productId}">
+            <img src="/images/NoImage.bmp" class="card-img-top" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title" th:text="${product.productName}"></h5>
+            </div>
+            <div class="card-footer">
+              <small
+                class="text-body-secondary"
+                style="text-decoration: none"
+                th:text="${product.createdAt} + 日追加"
+              ></small>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

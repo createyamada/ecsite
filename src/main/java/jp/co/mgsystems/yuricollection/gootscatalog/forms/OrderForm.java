@@ -1,24 +1,18 @@
-package jp.co.mgsystems.yuricollection.gootscatalog.beans;
-
+package jp.co.mgsystems.yuricollection.gootscatalog.forms;
 
 import java.time.LocalDateTime;
 
-import lombok.AllArgsConstructor;
+import io.micrometer.common.lang.NonNull;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-/**
- * 商品注文情報
- */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Order {
-     // 注文ID
+public class OrderForm {
+    // 注文ID
     private Long orderId;
     // 注文ユーザID
     private Long userId;
     // 注文商品ID
+    @NonNull
     private Long productId;
     // 商品名
     private String productName;   

@@ -383,10 +383,11 @@ INSERT INTO
         user_id,
         is_cancel,
         order_cnt,
-        created_at
+        created_at,
+        updated_at
     )
 VALUES
-    (1, 1, 100, TRUE, now());
+    (1, 1, 100, TRUE, now(), now());
 
 INSERT INTO
     orders(
@@ -434,10 +435,11 @@ INSERT INTO
         user_id,
         order_cnt,
         is_cancel,
-        created_at
+        created_at,
+        updated_at
     )
 VALUES
-    (3, 2, 100, TRUE, now());
+    (3, 2, 100, TRUE, now(), now());
 
 INSERT INTO
     orders(

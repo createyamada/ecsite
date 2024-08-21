@@ -32,14 +32,34 @@
     ORDER BY
       stocks.stock_id
   </select>
+  <select id="getStockById" resultMap="stockMap">
+    SELECT
+      stock_id,
+      stocks.product_id as product_id,
+      products.product_name as product_name,
+      genres.genre_name as genre_name,
+      stock_cnt,
+      stocks.version as version,
+      stocks.created_at as created_at,
+      stocks.updated_at as updated_at
+    FROM
+      stocks 
+      LEFT OUTER JOIN products 
+          ON stocks.product_id = products.product_id 
+      LEFT OUTER JOIN genres 
+          ON products.genre_id = genres.genre_id
+    WHERE
+      stock_id = #{stockId}
+  </select>
+
     <update id="update">
         UPDATE 
             stocks 
         SET
           product_id = #{productId}, 
           stock_cnt = #{stockCnt},
-          comment = #{comment},
-          created_at = #{createdAt}
+          version = version + 1,
+          updated_at = now()
         WHERE
           stock_id = #{stockId}
       </update>
@@ -62,4 +82,10 @@
         )
       </insert>
   
+      <delete id="delete" parameterType="jp.co.mgsystems.yuricollection.gootscatalog.beans.Stock">
+        DELETE FROM
+          stocks
+        WHERE
+          stocks.stock_id = #{stockId}
+      </delete>
 </mapper>

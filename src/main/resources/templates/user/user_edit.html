@@ -18,7 +18,7 @@
     >
       <div class="container-fluid">
         <a th:text="#{site.title}" class="navbar-brand" th:href="@{/}"></a>
-        <a th:text="#{page.user.user_edit}" class="navbar-brand"></a>
+        <a th:text="#{page.admin.main}" class="navbar-brand"></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -61,15 +61,15 @@
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  th:href="@{/user/purchaseHistory}"
-                  th:text="#{page.user.purchase_history}"
+                  th:href="@{/user/purchaseHistories}"
+                  th:text="#{page.user.purchaseHistories}"
                 ></a>
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link"
                   th:href="@{/user/userEdit}"
-                  th:text="#{page.user.user_edit}"
+                  th:text="#{page.user.userEdit}"
                 ></a>
               </li>
               <li class="nav-item">
@@ -86,8 +86,133 @@
         </div>
       </div>
     </nav>
+    <h1>ユーザ情報更新</h1>
+    <form
+      method="post"
+      th:action="@{/user/update}"
+      th:object="${userUpdateForm}"
+      class="row g-3 m-3"
+    >
+      <input
+        type="hidden"
+        th:name="${_csrf.parameterName}"
+        th:value="${_csrf.token}"
+      />
+      <div class="col-md-6">
+        <label for="inputEmail4" class="form-label">ユーザID</label>
+        <input
+          type="email"
+          class="form-control"
+          id="inputEmail4"
+          th:field="*{username}"
+        />
+      </div>
+      <!-- <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">パスワード</label>
+        <input
+          type="password"
+          class="form-control"
+          id="inputPassword4"
+          th:field="*{password}"
+        />
+      </div> -->
+      <div class="col-md-6">
+        <label for="inputfirstName" class="form-label">姓</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputfirstName"
+          th:field="*{firstName}"
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="inputlastName" class="form-label">名</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputlastName"
+          th:field="*{lastName}"
+        />
+      </div>
 
-    <div class="container"><h1>ユーザ編集画面</h1></div>
+      <div class="col-md-2">
+        <label for="inputZip" class="form-label">郵便番号</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputZip"
+          th:field="*{zip}"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="inputState" class="form-label">都道府県</label>
+        <select id="inputState" class="form-select" th:field="*{prefectures}">
+          <option value="">都道府県</option>
+          <option selected value="東京都">東京都</option>
+        </select>
+      </div>
+      <div class="col-12">
+        <label for="inputAddress2" class="form-label">市町村</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputAddress2"
+          th:field="*{city} "
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="inputCity" class="form-label">番地以降</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputCity"
+          placeholder="番地、アパート名、マンション名、部屋番号"
+          th:field="*{address}"
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="telno" class="form-label">電話番号</label>
+        <input
+          type="text"
+          class="form-control"
+          id="telno"
+          th:field="*{telno}"
+        />
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label
+            for="createdAt"
+            class="form-label"
+            th:text="#{label.createdAt}"
+          ></label
+          >
+          <h5
+            type="text"
+            id="createdAt"
+            th:text="*{createdAt}"
+          />
+        </div>
+        <div class="col">
+          <label
+            for="updatedAt"
+            class="form-label"
+            th:text="#{label.updatedAt}"
+          ></label
+          >
+          <h5
+            id="updatedAt"
+            th:text="*{updatedAt}"
+          />
+        </div>
+      </div>
+    </div>
+
+      <div class="col-12">
+        <button class="btn btn-primary" type="submit">更新</button>
+      </div>
+    </form>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

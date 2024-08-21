@@ -28,6 +28,7 @@ public class ProductForm {
     @Max(99999999)
     private Integer price;
     // 在庫数
+    @NotNull
     @Min(0)
     @Max(1000)
     private Integer stocks;

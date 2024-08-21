@@ -119,7 +119,7 @@ public class ProductsService {
     /**
      * 商品情報を削除する
      * @param product
-     * @return 更新件数
+     * @return 削除件数
      */
     @Transactional
     public int delete(Product product) {

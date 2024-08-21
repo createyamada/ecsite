@@ -1,7 +1,5 @@
 package jp.co.mgsystems.yuricollection.gootscatalog.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -11,15 +9,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
-import jp.co.mgsystems.yuricollection.gootscatalog.beans.Genre;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.Product;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.Stock;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.ProductForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.SearchForm;
+import jp.co.mgsystems.yuricollection.gootscatalog.services.CommonService;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.ProductsService;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.StocksService;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.UsersService;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +36,9 @@ public class AdminProductController {
     @Autowired
     StocksService stocksService;
 
+    @Autowired
+    CommonService commonService;
+
     /**
      * 検索条件から商品を検索する
      * @param searchForm
@@ -52,45 +52,22 @@ public class AdminProductController {
             return "admin/product_list";
         }
         // 情報検索しmodelに格納
-        this.setGenres(model);
+        commonService.setGenres(model);
         // 商品情報取得
-        setProducts(searchForm, model);
+        commonService.setProducts(searchForm, model);
         // テンプレートを返す
         return "admin/product_list";
     }
 
     /**
-     * 検索条件から商品を検索する
-     * @param searchForm
-     * @param model
-     * @return 遷移先
-     */
-    @RequestMapping("/admin/stocks")
-    public String stocks(@Validated SearchForm searchForm, Model model) {
-        // 情報検索しmodelに格納
-        this.setGenres(model);
-       // 在庫情報取得
-       List<Stock> stocks = new ArrayList<>();
-       stocks = stocksService.getStockByCondition(searchForm);
-        // モデルに格納
-        model.addAttribute("stocks", stocks);
-        // テンプレートを返す
-        return "admin/stock_list";
-    }
-
-    /**
-     * 検索条件をクリアする
+     * 商品一覧画面の検索条件をクリアする
      * @param searchForm
      * @param model
      * @return 遷移先
      */
     @GetMapping("/admin/products/reset")
-    public String reset(SearchForm searchForm, Model model) {
-        // 検索条件を初期化
-        searchForm = new SearchForm();
-        // 情報検索しmodelに格納
-        this.setGenres(model);
-        this.setProducts(searchForm, model);
+    public String productsReset(SearchForm searchForm, Model model) {
+        commonService.resetSearchForm(searchForm,model);
         // テンプレートを返す
         return "admin/product_list";
     }
@@ -105,15 +82,13 @@ public class AdminProductController {
     @GetMapping("/admin/products/{productId}")
     public String initUpdate(@PathVariable("productId") Integer productId, @ModelAttribute ProductForm productForm, Model model) {
         // ジャンル情報取得
-        setGenres(model);
+        commonService.setGenres(model);
         // 商品番号を条件に商品を検索
         Product product = productsService.getProductById(productId);
         // 検索結果を入力内容に詰め替える
         BeanUtils.copyProperties(product, productForm);
         return "admin/product";
     }
-
-
 
     /**
      * 商品情報を保存する
@@ -126,10 +101,10 @@ public class AdminProductController {
     public String save(@Validated ProductForm productForm, BindingResult result, Model model) {
         try {
             // 情報検索しmodelに格納
-            this.setGenres(model);
+            commonService.setGenres(model);
             if (result.hasErrors()) {
                 // 入力チェックでエラーがある場合
-                return "product";
+                return "admin/product";
             }
             Product product = new Product();
             // 入力内容を詰め替える
@@ -174,7 +149,7 @@ public class AdminProductController {
         } catch(OptimisticLockingFailureException e) {
             result.addError(new ObjectError("global", e.getMessage()));
             // 情報検索しmodelに格納
-            this.setGenres(model);
+            commonService.setGenres(model);
             return "product";
         }
 
@@ -192,36 +167,8 @@ public class AdminProductController {
     @GetMapping("/admin/products/new")
     public String initNew(@ModelAttribute ProductForm productForm, Model model) {
         // ジャンル情報取得
-        setGenres(model);
+        commonService.setGenres(model);
         return "admin/product";
-    }
-
-    /**
-     * ジャンル一覧をモデルに追加する
-     * @param searchForm
-     * @param model
-     */
-    private void setGenres(Model model) {
-        // ブランド情報取得
-        List<Genre> genres = new ArrayList<>();
-        genres = productsService.getGenre();
-
-        // モデルに格納
-        model.addAttribute("genres", genres);
-    }
-
-    /**
-     * 検索条件の商品一覧をモデルに追加する
-     * @param searchForm
-     * @param model
-     */
-    private void setProducts(SearchForm searchForm, Model model) {
-        // 商品情報取得
-        List<Product> products = new ArrayList<>();
-        products = productsService.getProductByCondition(searchForm);
-
-        // モデルに格納
-        model.addAttribute("products", products);
     }
     
 }

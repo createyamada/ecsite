@@ -62,21 +62,21 @@
                 <a
                   class="nav-link"
                   th:href="@{/admin/products}"
-                  th:text="#{admin.menu.product_list}"
+                  th:text="#{admin.menu.productList}"
                 ></a>
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link"
                   th:href="@{/admin/userManagement}"
-                  th:text="#{admin.menu.user_management}"
+                  th:text="#{admin.menu.userManagement}"
                 ></a>
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link"
                   th:href="@{/admin/products/new}"
-                  th:text="#{admin.menu.new_item_add}"
+                  th:text="#{admin.menu.newItemAdd}"
                 ></a>
               </li>
               <li class="nav-item">
@@ -100,7 +100,6 @@
         </div>
       </div>
     </nav>
-
     <div class="container">
       <form method="post" th:object="${productForm}">
         <input

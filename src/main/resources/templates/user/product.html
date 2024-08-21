@@ -61,15 +61,15 @@
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  th:href="@{/user/purchaseHistory}"
-                  th:text="#{page.user.purchase_history}"
+                  th:href="@{/user/purchaseHistories}"
+                  th:text="#{page.user.purchase_histories}"
                 ></a>
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link"
                   th:href="@{/user/userEdit}"
-                  th:text="#{page.user.user_edit}"
+                  th:text="#{page.user.userEdit}"
                 ></a>
               </li>
               <li class="nav-item">
@@ -146,14 +146,15 @@
             <label
               for="genre"
               class="form-label"
-            >個数選択</label>
+              th:text="#{placeholder.selectCnt}"
+            ></label>
             <select
               id="genre"
               th:field="*{orders}"
               class="form-select"
               aria-label="Default select example"
             >
-              <option value="">個数を選択</option>
+              <option value="" th:text="#{placeholder.selectCnt}"></option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>

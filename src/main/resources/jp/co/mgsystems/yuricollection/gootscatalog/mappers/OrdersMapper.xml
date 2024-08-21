@@ -33,17 +33,36 @@
     ORDER BY
       orders.order_id
   </select>
+  <select id="getOrderById" resultMap="orderMap">
+    SELECT
+      order_id,
+      orders.product_id as product_id,
+      products.product_name as product_name,
+      products.price as price,
+      products.comment as comment,
+      genres.genre_name as genre_name,
+      order_cnt,
+      is_cancel,
+      orders.created_at as created_at,
+      orders.updated_at as updated_at
+    FROM
+      orders 
+      LEFT OUTER JOIN products 
+          ON orders.product_id = products.product_id 
+      LEFT OUTER JOIN genres 
+          ON products.genre_id = genres.genre_id
+    WHERE
+      order_id = #{orderId}
+  </select>
 
     <update id="update">
         UPDATE 
             orders 
         SET
-          product_id = #{productId}, 
-          stock_cnt = #{stockCnt},
-          comment = #{comment},
-          created_at = #{createdAt}
+          is_cancel = TRUE,
+          updated_at = now()
         WHERE
-          stock_id = #{stockId}
+          order_id = #{orderId}
       </update>
       <insert id="insert" parameterType="jp.co.mgsystems.yuricollection.gootscatalog.beans.Order">
         INSERT INTO

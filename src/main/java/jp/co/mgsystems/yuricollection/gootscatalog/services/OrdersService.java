@@ -21,6 +21,24 @@ public class OrdersService {
     MessageSource messageSource;
 
     /**
+     * 検索条件から受注情報を取得
+     * @param searchCondition 検索条件
+     * @return 在庫情報
+     */
+    public List<Order> getOrderByCondition(SearchForm searchCondition) {
+        return ordersMapper.getOrderByCondition(searchCondition);
+    }
+
+    /**
+     * 在庫IDに紐づく在庫情報を取得する
+     * @param orderId
+     * @return 商品情報
+     */
+    public Order getOrderById(int orderId) {
+        return ordersMapper.getOrderById(orderId);
+    }
+
+    /**
      * 受注情報を保存する
      * @param order
      * @return 保存件数
@@ -84,12 +102,4 @@ public class OrdersService {
         return cnt;
     }
 
-    /**
-     * 検索条件から受注情報を取得
-     * @param searchCondition 検索条件
-     * @return 在庫情報
-     */
-    public List<Order> getOrderByCondition(SearchForm searchCondition) {
-        return ordersMapper.getOrderByCondition(searchCondition);
-    }
 }

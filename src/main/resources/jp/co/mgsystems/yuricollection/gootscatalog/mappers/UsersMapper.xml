@@ -56,6 +56,23 @@
     )
   </insert>
 
+  <update id="update">
+    UPDATE
+      users
+    SET
+      username = #{username},
+      first_name = #{firstName},
+      last_name = #{lastName},
+      zip = #{zip},
+      telno = #{telno},
+      prefectures = #{prefectures},
+      city = #{city},
+      address = #{address},
+      updated_at = now()
+    WHERE
+      user_id = #{userId}
+  </update>
+
   <update id="authenticationCompleted">
     UPDATE 
       users 

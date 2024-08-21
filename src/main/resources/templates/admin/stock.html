@@ -102,127 +102,86 @@
     </nav>
 
     <div class="container">
-      <form th:action="@{/admin/stocks}" method="get">
-        <div class="row justify-content-around">
-          <div class="col-3">
-            <label
-              th:text="#{searchForm.genre}"
-              for="genre"
-              class="form-label"
-            ></label>
-            <select
-              id="genre"
-              th:field="${searchForm.genreId}"
-              class="form-select"
-              aria-label="Default select example"
-            >
-              <option value="" th:text="#{placeholder.genre}"></option>
-              <option
-                th:each="genre : ${genres}"
-                th:text="${genre.genreName}"
-                th:value="${genre.genreId}"
-              ></option>
-            </select>
-          </div>
-          <div class="col-3">
-            <div class="mb-3">
-              <label
-                th:text="#{searchForm.keyword}"
-                for="keyword"
-                class="form-label"
-              ></label>
-              <input
-                type="text"
-                id="keyword"
-                class="form-control"
-                th:field="${searchForm.keyword}"
-                th:placeholder="#{placeholder.keyword}"
-              />
-              <div class="text-danger" th:errors="${searchForm.keyword}"></div>
-            </div>
+      <form method="post" th:object="${stockForm}">
+        <input
+          type="hidden"
+          th:name="${_csrf.parameterName}"
+          th:value="${_csrf.token}"
+        />
+        <div class="row">
+          <div class="col">
+            <div
+              class="alert alert-danger"
+              role="alert"
+              th:each="err : ${#fields.errors('global')}"
+              th:text="${err}"
+            ></div>
           </div>
         </div>
-
+        <div class="row" th:if="${stockForm.stockId}">
+          <div class="col">
+            <label class="form-label" th:text="#{label.productId}"></label
+            ><span th:text="*{productId}"></span>
+            <input type="hidden" th:field="*{stockId}" />
+            <input type="hidden" th:field="*{productId}" />
+            <input type="hidden" th:field="*{version}" />
+            <input type="hidden" th:field="*{createdAt}" />
+          </div>
+        </div>
         <div class="row">
-          <div class="col d-flex flex-row-reverse">
+          <div class="col">
+            <label
+              for="productName"
+              class="form-label"
+              th:text="#{label.productName}"
+            ></label>
+            <input
+              type="text"
+              class="form-control"
+              id="productName"
+              th:field="*{productName}"
+              disabled="false"
+            />
+            <div th:errors="*{productName}" class="invalid-feedback"></div>
+          </div>
+         
+        <div class="row">
+          <div class="col">
+            <label
+              for="stocks"
+              class="form-label"
+              th:text="#{label.stocks}"
+            ></label>
+            <input
+              type="number"
+              class="form-control"
+              id="stockCnt"
+              th:field="*{stockCnt}"
+              placeholder=""
+              th:errorClass="is-invalid"
+              maxlength="8"
+            />
+            <div th:errors="*{stockCnt}" class="invalid-feedback"></div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col text-end">
             <button
-              th:text="#{btn.delete}"
-              type="button"
-              class="btn btn-danger"
-            ></button>
-            <a
-              th:text="#{btn.new}"
-              th:href="@{/admin/stocks/new}"
-              class="btn btn-primary me-1"
-            ></a>
-            <a
-              th:text="#{btn.reset}"
-              th:href="@{/admin/stocks/reset}"
-              class="btn btn-secondary me-1"
-            >
-            </a>
-            <button
-              th:text="#{btn.search}"
+              class="btn btn-primary"
               type="submit"
-              class="btn btn-success ms-1 me-1"
+              th:formaction="@{/admin/stocks/save}"
+              th:text="#{btn.save}"
+            ></button>
+            <button
+              class="btn btn-danger"
+              type="submit"
+              th:formaction="@{/admin/stocks/delete}"
+              th:if="${stockForm.stockId}"
+              th:text="#{btn.delete}"
             ></button>
           </div>
         </div>
       </form>
-      <div class="row">
-        <div class="col">
-          <table class="table table-dark table-striped mt-3">
-            <thead>
-              <tr>
-                <th
-                  th:text="#{label.productId}"
-                  scope="col"
-                  class="text-center"
-                ></th>
-                <th
-                  th:text="#{label.productName}"
-                  scope="col"
-                  class="text-center"
-                ></th>
-                <th
-                  th:text="#{label.genre}"
-                  scope="col"
-                  class="text-center"
-                ></th>
-                <th
-                  th:text="#{label.stocks}"
-                  scope="col"
-                  class="text-center"
-                ></th>
-                <th
-                  th:text="#{label.createdAt}"
-                  scope="col"
-                  class="text-center"
-                ></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="stock : ${stocks}">
-                <th>
-                  <a
-                    th:text="${stock.stockId}"
-                    th:href="@{/admin/stocks/} + *{stock.stockId}"
-                  ></a>
-                </th>
-                <th th:text="${stock.productName}"></th>
-                <th th:text="${stock.genreName}"></th>
-                <th
-                  th:text="${#numbers.formatInteger(stock.stockCnt,3,'COMMA')}"
-                  class="text-end"
-                ></th>
-                <th
-                  th:text="${#temporals.format(stock.createdAt, 'yyyy/MM/dd HH:mm')}"
-                ></th>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

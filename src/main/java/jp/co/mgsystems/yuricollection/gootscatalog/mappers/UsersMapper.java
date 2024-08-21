@@ -27,6 +27,13 @@ public interface UsersMapper {
      */
     public void insert(User user);
 
+    /**
+     * 
+     * @param user 新規登録ユーザ情報
+     * @return int 更新件数
+     */
+    public int update(User user);
+
 
     /**
      * 

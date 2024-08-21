@@ -18,7 +18,7 @@
     >
       <div class="container-fluid">
         <a th:text="#{site.title}" class="navbar-brand" th:href="@{/}"></a>
-        <a th:text="#{page.admin.main}" class="navbar-brand"></a>
+        <a th:text="#{page.user.purchaseHistories}" class="navbar-brand"></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -61,29 +61,15 @@
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  th:href="@{/admin/products}"
-                  th:text="#{admin.menu.productList}"
+                  th:href="@{/user/purchaseHistories}"
+                  th:text="#{page.user.purchaseHistories}"
                 ></a>
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  th:href="@{/admin/userManagement}"
-                  th:text="#{admin.menu.userManagement}"
-                ></a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  th:href="@{/admin/products/new}"
-                  th:text="#{admin.menu.newItemAdd}"
-                ></a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  th:href="@{/admin/stocks}"
-                  th:text="#{admin.menu.stocks}"
+                  th:href="@{/user/userEdit}"
+                  th:text="#{page.user.userEdit}"
                 ></a>
               </li>
               <li class="nav-item">
@@ -102,7 +88,7 @@
     </nav>
 
     <div class="container">
-      <form th:action="@{/admin/stocks}" method="get">
+      <form th:action="@{/user/purchaseHistory}" method="get">
         <div class="row justify-content-around">
           <div class="col-3">
             <label
@@ -152,12 +138,12 @@
             ></button>
             <a
               th:text="#{btn.new}"
-              th:href="@{/admin/stocks/new}"
+              th:href="@{/user/orders/new}"
               class="btn btn-primary me-1"
             ></a>
             <a
               th:text="#{btn.reset}"
-              th:href="@{/admin/stocks/reset}"
+              th:href="@{/user/orders/reset}"
               class="btn btn-secondary me-1"
             >
             </a>
@@ -190,7 +176,12 @@
                   class="text-center"
                 ></th>
                 <th
-                  th:text="#{label.stocks}"
+                  th:text="#{label.orders}"
+                  scope="col"
+                  class="text-center"
+                ></th>
+                <th
+                  th:text="#{label.isCancel}"
                   scope="col"
                   class="text-center"
                 ></th>
@@ -202,21 +193,24 @@
               </tr>
             </thead>
             <tbody>
-              <tr th:each="stock : ${stocks}">
+              <tr th:each="order : ${orders}">
                 <th>
                   <a
-                    th:text="${stock.stockId}"
-                    th:href="@{/admin/stocks/} + *{stock.stockId}"
+                    th:text="${order.orderId}"
+                    th:href="@{/user/orders/} + *{order.orderId}"
                   ></a>
                 </th>
-                <th th:text="${stock.productName}"></th>
-                <th th:text="${stock.genreName}"></th>
+                <th th:text="${order.productName}"></th>
+                <th th:text="${order.genreName}"></th>
                 <th
-                  th:text="${#numbers.formatInteger(stock.stockCnt,3,'COMMA')}"
+                  th:text="${#numbers.formatInteger(order.orderCnt,3,'COMMA')}"
                   class="text-end"
                 ></th>
                 <th
-                  th:text="${#temporals.format(stock.createdAt, 'yyyy/MM/dd HH:mm')}"
+                  th:text="${order.isCancel} ? 'キャンセル済み' : '注文済み'"
+                ></th>
+                <th
+                  th:text="${#temporals.format(order.createdAt, 'yyyy/MM/dd HH:mm')}"
                 ></th>
               </tr>
             </tbody>

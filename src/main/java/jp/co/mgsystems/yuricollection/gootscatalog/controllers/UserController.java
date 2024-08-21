@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import jp.co.mgsystems.yuricollection.gootscatalog.beans.Product;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.User;
+import jp.co.mgsystems.yuricollection.gootscatalog.forms.ProductForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.UserSaveForm;
+import jp.co.mgsystems.yuricollection.gootscatalog.forms.UserUpdateForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.ProductsService;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.UsersService;
 
@@ -46,10 +50,39 @@ public class UserController {
      * @return　遷移先
      */
     @GetMapping("/user/userEdit")
-    public String initUserEdit() {
+    public String initUserEdit(@ModelAttribute UserUpdateForm userUpdateForm, Model model) {
+        // ログイン中のユーザIDを取得しセットする
+        Long loginUserId = usersService.getLogInUserId();
+        // ユーザ番号を条件にユーザを検索
+        User user = usersService.selectByUserId(loginUserId);
+        // 検索結果を入力内容に詰め替える
+        BeanUtils.copyProperties(user, userUpdateForm);
+
         // ユーザメインページへのビュー名を返す
         return "user/user_edit";
     }
+
+      /**
+     * ユーザ編集画面初期表示
+     * @return　遷移先
+     */
+    @PostMapping("/user/update")
+    public String update(@ModelAttribute UserUpdateForm userUpdateForm, Model model) {
+        
+        User user = new User();
+        // ログイン中のユーザIDを取得しセットする
+        Long loginUserId = usersService.getLogInUserId();
+        userUpdateForm.setUserId(loginUserId);
+
+        // 入力内容を詰め替える
+        BeanUtils.copyProperties(userUpdateForm, user);
+        usersService.update(user);
+
+
+
+        // ユーザメインページへのビュー名を返す
+        return "user/user_edit";
+    }  
 
 
     /**
