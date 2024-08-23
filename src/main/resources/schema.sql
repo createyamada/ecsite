@@ -85,3 +85,14 @@ CREATE TABLE verification_tokens(
     expiration_time DATETIME NOT NULL COMMENT 'トークン有効期限',
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 ) COMMENT '認証トークンテーブル';
+
+-- 認証トークンテーブル作成
+DROP TABLE IF EXISTS password_reset_tokens;
+
+CREATE TABLE password_reset_tokens(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'パスワード変更認証トークンID',
+    token VARCHAR(255) NOT NULL COMMENT 'トークン',
+    user_id BIGINT NOT NULL COMMENT 'ユーザID',
+    expiration_time DATETIME NOT NULL COMMENT 'トークン有効期限',
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+) COMMENT 'パスワード変更認証トークンテーブル';

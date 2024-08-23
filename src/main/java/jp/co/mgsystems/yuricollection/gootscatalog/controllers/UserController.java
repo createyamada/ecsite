@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import jp.co.mgsystems.yuricollection.gootscatalog.beans.Product;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.User;
+import jp.co.mgsystems.yuricollection.gootscatalog.forms.PasswordResetForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.ProductForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.UserSaveForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.UserUpdateForm;
-import jp.co.mgsystems.yuricollection.gootscatalog.services.ProductsService;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.UsersService;
+import org.springframework.beans.factory.annotation.Value;
+import jp.co.mgsystems.yuricollection.gootscatalog.services.ProductsService;
+import jp.co.mgsystems.yuricollection.gootscatalog.services.PasswordResetTokensService;
+
 
 /*
  * ユーザの画面遷移のみ等シンプルな処理を記載
@@ -32,6 +34,9 @@ public class UserController {
 
     @Autowired
     ProductsService productsService;
+
+    @Autowired
+    PasswordResetTokensService passwordResetTokensService;
 
 
     /**
@@ -86,6 +91,59 @@ public class UserController {
 
 
     /**
+     * パスワード変更画面遷移
+     * ログインしていない場合：メールアドレス入力画面遷移
+     * ログインしているメール送信処理にリダイレクト
+     * @return　遷移先
+     */
+    @PostMapping("/user/password/updateDisp")
+    public String passwordUpdate() {
+
+        // ログイン中のユーザIDを取得しセットする
+        Long loginUserId = usersService.getLogInUserId();
+
+        if(loginUserId == null) {
+            // ログイン状態でないとき
+            return "common/input_mail";
+        }
+        // ログイン状態の時
+        return "redirect:/user/sendPassUpdateMail";
+    }
+
+
+    /**
+     * パスワード認証メール送信
+     * @return 遷移先
+     */
+    @RequestMapping("/user/sendPassUpdateMail")
+    public String sendPassUpdateMail() {
+
+        // ログイン中のユーザIDを取得しセットする
+        Long loginUserId = usersService.getLogInUserId();
+        User user = usersService.selectByUserId(loginUserId);
+
+        passwordResetTokensService.createPasswordResetTokenForUser(user);
+        return "user/pass_update_mail_complete";
+    }
+
+    /**
+     * パスワードトークン認証処理
+     * @param token トークン
+     * @param model モデル
+     * @return 遷移先
+     */
+    @GetMapping("/user/verifyPasswordUpdate")
+    public String verifyPasswordUpdate(@RequestParam("token") String token, @ModelAttribute PasswordResetForm passwordResetForm, Model model) {
+        boolean verified = passwordResetTokensService.validatePasswordResetToken(token);
+        if (verified == false) {
+            // 認証が確認できない場合認証できない画面に遷移
+            return "common/notValification";
+        }
+        return "user/password_update";
+    }
+
+
+    /**
      * ユーザ情報新規登録
      * @param userSaveForm 登録ユーザ情報
      * @param model モデル
@@ -104,7 +162,7 @@ public class UserController {
         BeanUtils.copyProperties(userSaveForm, user);
         usersService.register(user);
         // model.addAttribute("message", "登録が成功しました。メールを確認してアカウントを有効化してください。");
-        return "redirect:/saveSuccess";
+        return "redirect:/user/saveSuccess";
     }
 
     /**
@@ -112,7 +170,7 @@ public class UserController {
      * @return 遷移先
      */
     @RequestMapping("/user/saveSuccess")
-    public String requestMethodName() {
+    public String saveSuccess() {
         return "common/valification";
     }
     
@@ -126,10 +184,9 @@ public class UserController {
     @GetMapping("/user/verify")
     public String verifyAccount(@RequestParam("token") String token, Model model) {
         boolean verified = usersService.verifyUser(token);
-        if (verified) {
-            model.addAttribute("message", "アカウントが有効化されました。ログインしてください。");
-        } else {
-            model.addAttribute("message", "トークンが無効です。もう一度やり直してください。");
+        if (verified == false) {
+            // 認証が確認できない場合認証できない画面に遷移
+            return "common/notValification";
         }
         return "common/login";
     }

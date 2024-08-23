@@ -89,7 +89,6 @@
     <h1>ユーザ情報更新</h1>
     <form
       method="post"
-      th:action="@{/user/update}"
       th:object="${userUpdateForm}"
       class="row g-3 m-3"
     >
@@ -116,24 +115,27 @@
           th:field="*{password}"
         />
       </div> -->
-      <div class="col-md-6">
-        <label for="inputfirstName" class="form-label">姓</label>
-        <input
-          type="text"
-          class="form-control"
-          id="inputfirstName"
-          th:field="*{firstName}"
-        />
+      <div class="row">
+        <div class="col-md-6">
+          <label for="inputfirstName" class="form-label">姓</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputfirstName"
+            th:field="*{firstName}"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="inputlastName" class="form-label">名</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputlastName"
+            th:field="*{lastName}"
+          />
+        </div>
       </div>
-      <div class="col-md-6">
-        <label for="inputlastName" class="form-label">名</label>
-        <input
-          type="text"
-          class="form-control"
-          id="inputlastName"
-          th:field="*{lastName}"
-        />
-      </div>
+
 
       <div class="col-md-2">
         <label for="inputZip" class="form-label">郵便番号</label>
@@ -210,7 +212,8 @@
     </div>
 
       <div class="col-12">
-        <button class="btn btn-primary" type="submit">更新</button>
+        <button class="btn btn-primary" type="submit" th:formaction="@{/user/update}">更新</button>
+        <button class="btn btn-primary" type="submit" th:formaction="@{/user/password/updateDisp}">パスワード変更</button>
       </div>
     </form>
     <script

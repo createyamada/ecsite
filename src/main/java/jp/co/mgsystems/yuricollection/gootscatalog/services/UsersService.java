@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,11 +19,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import jp.co.mgsystems.yuricollection.gootscatalog.beans.Stock;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.User;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.VerificationToken;
-import jp.co.mgsystems.yuricollection.gootscatalog.forms.UserUpdateForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.mappers.TokenMapper;
 import jp.co.mgsystems.yuricollection.gootscatalog.mappers.UsersMapper;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +44,9 @@ public class UsersService implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Value("${app.server.url}")
+    private String serverUrl;
 
 
     /**
@@ -124,7 +125,7 @@ public class UsersService implements UserDetailsService {
      * @param token
      */
     private void sendVerificationEmail(String email, String token) {
-        String url = "http://localhost:8080/user/verify?token=" + token;
+        String url = serverUrl + "/user/verify?token=" + token;
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
         mailMessage.setSubject("アカウント確認");
