@@ -11,14 +11,14 @@ public interface UsersMapper {
      * @param username　ユーザ名
      * @return　ユーザ情報
      */
-    public User selectByUsername(String username);
+    public User getByUsername(String username);
 
     /**
      * ユーザーIDからユーザ情報を検索する
      * @param userId ユーザＩＤ
      * @return　ユーザ情報
      */
-    public User selectByUserId(Long userId);
+    public User getByUserId(Long userId);
 
 
     /**

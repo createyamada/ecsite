@@ -7,8 +7,8 @@ import lombok.Data;
  */
 @Data
 public class PasswordResetForm {
-    // 古いパスワード
-    private String oldPassword;
+    // ユーザ名
+    private String username;
 
     // 新しいパスワード
     private String newPassword;

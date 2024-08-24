@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.PasswordResetToken;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.User;
@@ -29,7 +30,20 @@ public class PasswordResetTokensService {
     @Value("${app.server.url}")
     private String serverUrl;
 
+
+
+    public String getByToken(String token) {
+        PasswordResetToken passToken = tokenMapper.findByToken(token);
+        User user = usersMapper.getByUserId(passToken.getUserId());
+        return user.getUsername();
+    }
+
     public void createPasswordResetTokenForUser(User user) {
+
+        if(user == null) {
+            throw new UsernameNotFoundException("ユーザが存在しない");
+        }
+
         PasswordResetToken resetToken = new PasswordResetToken();
 
         String token = UUID.randomUUID().toString();
@@ -60,7 +74,6 @@ public class PasswordResetTokensService {
      * @param token
      */
     private void sendPasswordUpdateVerificationEmail(String email, String token) {
-        email = "yamadayeah90@gmail.com";
         String url = serverUrl + "/user/verifyPasswordUpdate?token=" + token;
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);

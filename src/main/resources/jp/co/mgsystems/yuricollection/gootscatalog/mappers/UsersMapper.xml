@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jp.co.mgsystems.yuricollection.gootscatalog.mappers.UsersMapper">
-  <select id="selectByUsername" resultType="jp.co.mgsystems.yuricollection.gootscatalog.beans.User">
+  <select id="getByUsername" resultType="jp.co.mgsystems.yuricollection.gootscatalog.beans.User">
     SELECT
       *
     FROM
@@ -12,7 +12,7 @@
         username = #{username}
   </select>
 
-  <select id="selectByUserId" resultType="jp.co.mgsystems.yuricollection.gootscatalog.beans.User">
+  <select id="getByUserId" resultType="jp.co.mgsystems.yuricollection.gootscatalog.beans.User">
     SELECT
       *
     FROM

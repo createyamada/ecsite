@@ -54,18 +54,27 @@ public class UsersService implements UserDetailsService {
      * @param userId
      * @return
      */
-    public User selectByUserId(Long userId) {
-        return usersMapper.selectByUserId(userId);
+    public User getByUserId(Long userId) {
+        return usersMapper.getByUserId(userId);
+    }
+
+    /**
+     * ユーザ名からユーザ情報を取得
+     * @param username
+     * @return
+     */
+    public User getByUsername(String username) {
+        return usersMapper.getByUsername(username);
     }
 
 
     /**
-     * ユーザ名からユーザIDを取得する
+     * ログインIDからログインユーザ名を取得する
      * @return ユーザ名
      */
     public Long getLogInUserId() {
         String login_username = this.getLogInUsername();
-        User user = usersMapper.selectByUsername(login_username);
+        User user = usersMapper.getByUsername(login_username);
         return user.getUserId();
     }
 
@@ -82,7 +91,7 @@ public class UsersService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = usersMapper.selectByUsername(username);
+        User user = usersMapper.getByUsername(username);
         if(user == null) {
             throw new UsernameNotFoundException("ユーザが存在しない");
         }
@@ -146,7 +155,7 @@ public class UsersService implements UserDetailsService {
             return false;
         }
 
-        User user = usersMapper.selectByUserId(verificationToken.getUserId());
+        User user = usersMapper.getByUserId(verificationToken.getUserId());
         if (user == null) {
             return false;
         }

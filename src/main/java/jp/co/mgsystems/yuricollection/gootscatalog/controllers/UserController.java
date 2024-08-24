@@ -13,11 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import jp.co.mgsystems.yuricollection.gootscatalog.beans.User;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.PasswordResetForm;
-import jp.co.mgsystems.yuricollection.gootscatalog.forms.ProductForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.UserSaveForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.forms.UserUpdateForm;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.UsersService;
-import org.springframework.beans.factory.annotation.Value;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.ProductsService;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.PasswordResetTokensService;
 
@@ -37,6 +35,9 @@ public class UserController {
 
     @Autowired
     PasswordResetTokensService passwordResetTokensService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     /**
@@ -59,7 +60,7 @@ public class UserController {
         // ログイン中のユーザIDを取得しセットする
         Long loginUserId = usersService.getLogInUserId();
         // ユーザ番号を条件にユーザを検索
-        User user = usersService.selectByUserId(loginUserId);
+        User user = usersService.getByUserId(loginUserId);
         // 検索結果を入力内容に詰め替える
         BeanUtils.copyProperties(user, userUpdateForm);
 
@@ -84,7 +85,6 @@ public class UserController {
         usersService.update(user);
 
 
-
         // ユーザメインページへのビュー名を返す
         return "user/user_edit";
     }  
@@ -104,7 +104,7 @@ public class UserController {
 
         if(loginUserId == null) {
             // ログイン状態でないとき
-            return "common/input_mail";
+            return "common/password_update_mail_input";
         }
         // ログイン状態の時
         return "redirect:/user/sendPassUpdateMail";
@@ -116,11 +116,19 @@ public class UserController {
      * @return 遷移先
      */
     @RequestMapping("/user/sendPassUpdateMail")
-    public String sendPassUpdateMail() {
+    public String sendPassUpdateMail(@ModelAttribute PasswordResetForm passwordResetForm) {
 
-        // ログイン中のユーザIDを取得しセットする
-        Long loginUserId = usersService.getLogInUserId();
-        User user = usersService.selectByUserId(loginUserId);
+        User user = null;
+
+        if(passwordResetForm.getUsername() == null) {
+            // ログイン中のユーザIDを取得しセットする
+            Long loginUserId = usersService.getLogInUserId();
+            user = usersService.getByUserId(loginUserId);
+        } else {
+
+            // 入力値のユーザを検索し取得
+            user = usersService.getByUsername(passwordResetForm.getUsername());
+        }
 
         passwordResetTokensService.createPasswordResetTokenForUser(user);
         return "user/pass_update_mail_complete";
@@ -137,10 +145,29 @@ public class UserController {
         boolean verified = passwordResetTokensService.validatePasswordResetToken(token);
         if (verified == false) {
             // 認証が確認できない場合認証できない画面に遷移
-            return "common/notValification";
+            return "common/not_valification";
         }
+        // トークンからユーザ名を取得しセット
+        String username = passwordResetTokensService.getByToken(token);
+        passwordResetForm.setUsername(username);
         return "user/password_update";
     }
+
+
+    /**
+     * パスワード変更
+     * @param passwordResetForm パスワード変更情報
+     * @param model モデル
+     * @return 遷移先
+     */
+    @PostMapping("/user/passwordUpdate")
+    public String passwordUpdate(@ModelAttribute PasswordResetForm passwordResetForm ,Model model) {
+        User user = usersService.getByUsername(passwordResetForm.getUsername());
+        // パスワード入力値をセット
+        user.setPassword(passwordEncoder.encode(passwordResetForm.getNewPassword()));
+        return "/common/password_update_success";
+    }
+
 
 
     /**
@@ -161,7 +188,6 @@ public class UserController {
         // 検索結果を入力内容に詰め替える
         BeanUtils.copyProperties(userSaveForm, user);
         usersService.register(user);
-        // model.addAttribute("message", "登録が成功しました。メールを確認してアカウントを有効化してください。");
         return "redirect:/user/saveSuccess";
     }
 
@@ -186,7 +212,7 @@ public class UserController {
         boolean verified = usersService.verifyUser(token);
         if (verified == false) {
             // 認証が確認できない場合認証できない画面に遷移
-            return "common/notValification";
+            return "common/not_valification";
         }
         return "common/login";
     }
