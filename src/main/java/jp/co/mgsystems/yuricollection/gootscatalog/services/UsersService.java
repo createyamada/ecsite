@@ -134,7 +134,7 @@ public class UsersService implements UserDetailsService {
      * @param token
      */
     private void sendVerificationEmail(String email, String token) {
-        String url = serverUrl + "/user/verify?token=" + token;
+        String url = serverUrl + "/common/verify?token=" + token;
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
         mailMessage.setSubject("アカウント確認");
@@ -192,6 +192,27 @@ public class UsersService implements UserDetailsService {
             );
         }
         return cnt;
+    }
+
+    @Transactional
+    public void passwordUpdate(User user) {
+        int cnt = usersMapper.passwordUpdate(user);
+        // 更新できなかった場合(versionエラーの可能性あり)
+        if (cnt == 0) {
+            throw new OptimisticLockingFailureException(
+                messageSource.getMessage("error.OptimisticLockingFailure",
+                null,
+                Locale.JAPANESE)
+            );
+        }
+        // 2件以上更新は想定外(SQL不備の可能性あり)
+        if (cnt > 1) {
+            throw new RuntimeException(
+                messageSource.getMessage("error.Runtime",
+                new String[] {"2件以上更新されました"},
+                Locale.JAPANESE)
+            );
+        }
     }
     
 }

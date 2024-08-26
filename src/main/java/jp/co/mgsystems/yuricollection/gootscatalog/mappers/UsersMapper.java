@@ -40,5 +40,12 @@ public interface UsersMapper {
      * @param user 認証ユーザ情報
      */
     public void authenticationCompleted(User user);
+
+    /**
+     * 
+     * @param user パスワード変更ユーザ
+     * @return int 更新件数
+     */
+    public int passwordUpdate(User user);
     
 } 

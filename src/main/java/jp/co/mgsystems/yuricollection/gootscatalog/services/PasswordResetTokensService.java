@@ -74,7 +74,7 @@ public class PasswordResetTokensService {
      * @param token
      */
     private void sendPasswordUpdateVerificationEmail(String email, String token) {
-        String url = serverUrl + "/user/verifyPasswordUpdate?token=" + token;
+        String url = serverUrl + "/common/verifyPasswordUpdate?token=" + token;
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
         mailMessage.setSubject("アカウント確認");

@@ -112,7 +112,7 @@ public class UserOrderController {
     }
 
     /**
-     * 在庫情報を保存する
+     * 受注情報を保存する
      * @param orderForm 入力内容
      * @param result BindingResult
      * @param model　Model
