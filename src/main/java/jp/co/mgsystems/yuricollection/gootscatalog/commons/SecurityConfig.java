@@ -19,6 +19,7 @@ public class SecurityConfig {
         .requestMatchers("/admin/**").hasRole("ADMIN")
         .requestMatchers("/userCreate").permitAll()
         .requestMatchers("/common/**").permitAll()
+        .requestMatchers("/error/**").permitAll()
         // .requestMatchers("/user/register").permitAll()
         // .requestMatchers("/user/verifyPasswordUpdate/**").permitAll()
         // .requestMatchers("/user/saveSuccess").permitAll()
