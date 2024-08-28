@@ -18,7 +18,6 @@ import jp.co.mgsystems.yuricollection.gootscatalog.services.PasswordResetTokensS
  * ユーザの画面遷移のみ等シンプルな処理を記載
  */
 @Controller
-// @RequestMapping("/user")
 public class UserController {
 
     @Autowired

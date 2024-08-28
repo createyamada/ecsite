@@ -14,7 +14,6 @@ import jp.co.mgsystems.yuricollection.gootscatalog.services.OrdersService;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.ProductsService;
 import jp.co.mgsystems.yuricollection.gootscatalog.services.UsersService;
 
-// @RequestMapping("/user")
 @Controller
 public class UserProductController {
     
